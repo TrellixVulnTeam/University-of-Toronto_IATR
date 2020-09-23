@@ -1,1 +1,2 @@
-# Computer Science courses and Statistics courses in uoft
+## School course repository
+
