@@ -1,0 +1,28 @@
+============================================================================
+CSC 373                Tutorial Exercises for Week 11              Fall 2014
+============================================================================
+
+
+ 1. In class, we defined the notion of approximation ratio for MINimization
+    problems, so that the ratio is a real number >= 1.
+    Give a precise definition of approximation ratio for MAXimization
+    problems, so that the ratio is also a real number >= 1.
+
+
+ 2. Consider the following algorithm to find a small vertex cover in an
+    undirected graph G:
+
+        Start with every vertex in C, then for each vertex in turn, remove
+        it from C if C - v still covers every edge (G itself is unchanged).
+
+    Show that this algorithm has a non-constant approximation ratio.
+    What is the worst-case running time for this algorithm?
+
+
+ 3. (a) Write a natural greedy algorithm to find a small vertex cover in an
+        undirected graph G. (Hint: think about the degree of each vertex.)
+
+    (b) What is the worst-case running time of your algorithm?
+
+   *(c) What is the approximation ratio for your algorithm?
+

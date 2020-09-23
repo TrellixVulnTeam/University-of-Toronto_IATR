@@ -1,0 +1,119 @@
+============================================================================
+CSC 373                            Review                          Fall 2014
+============================================================================
+
+Main course topics:
+
+  - Greedy algorithms (including proofs of correctness)
+  - Dynamic programming
+  - Network flow (properties and problem representation)
+  - Linear programming (problem representation)
+  - P, NP, NP-completeness, self-reducibility
+  - Approximation algorithms (justifying approximation ratio)
+
+---------------------
+Studying for the exam
+---------------------
+
+For the final exam, you will be allowed to bring ONE 8.5" x 11" sheet of
+paper, HANDwritten on both sides, and nothing else (no calculator or other
+electronic device -- be aware that the Chief Presiding Officers appointed by
+the Faculty of Arts and Science are very strict about taking away
+cellphones, pagers, and other unauthorized electronic devices -- see the
+note to that effect posted on the Tests/Exam page).
+
+For your aid sheet, I recommend that you start by writing down the main
+topics and subtopics of the course, and review all of the lecture and
+tutorial notes; make sure that you understand everything in the notes,
+including all of the proofs, and ask questions if you don't.
+
+You should also read all of the relevant chapters in the textbook, but you
+can safely ignore any sections that cover material that was never mentioned
+in lectures, tutorials, homework, or the midterm test.
+
+Make sure you go over ALL of the homework solutions and that you understand
+them. Make sure that you also understand the mistakes you may have made, why
+they were mistakes, and what the correct answers were. That's the whole
+point of learning: to make mistakes and understand the difference between
+what's correct and what isn't so that you don't repeat your mistakes!
+
+Also, by reading the posted solutions carefully, you may notice things you
+hadn't thought of when you were working on the problems, and maybe learn a
+few new techniques or tricks for solving certain types of problems.
+
+Do the same for the midterm test.
+
+As you're going over all of this course material, keep notes on the main
+definitions and results, important points, details you know you have trouble
+remembering, etc.: this is exactly the stuff that you should put down on
+your aid sheet.
+
+Once your aid sheet is ready, the best way to get ready is practice,
+practice, practice! Go over as many exercises and problems from the textbook
+as you can, and the same for previous year's assignments, tests, and exams
+(which you can get from the UofT Library website -- there's a link on the
+course webpage).
+
+----------------
+Writing the exam
+----------------
+
+READ THE QUESTIONS! If you answer the wrong question, even if it's because
+you were nervous and you misread it, there is nothing that we can do. If
+something is unclear, don't be afraid to ask.
+
+While you're at it, note the total number of pages, questions, and marks.
+This will allow you to plan your time carefully, by figuring out how many
+minutes you have available for each page/question/mark.
+
+SHOW WHAT YOU KNOW! Your strategy during the exam should be:
+  - identify the questions that you know how to answer (this means that you
+    must read EVERY question before you start answering any of them);
+  - answer those questions right away;
+  - go back to the questions you're not sure about, and work on them;
+  - if you get stuck on a question, move on to the next one and come back
+    later (don't waste your time) -- you can figure out ahead of time how
+    much time to devote to each question (based on how much it's worth), and
+    stick to that estimate as much as possible.
+
+If you have an idea how to solve a question but no time to do it in detail,
+then of course you should write down your idea. Also, you can usually get at
+least 1/3 of the marks for any question where you have the correct structure
+(i.e., clearly showing that you know what you are supposed to do), even if
+you cannot fill in the details (see the next point).
+
+EXPLAIN WHAT YOU'RE DOING! When you give an answer, make sure that you give
+at least a short statement of what you're doing before giving us the answer:
+if your answer is incorrect, this can make the difference between getting NO
+mark (because we can't tell if you understand what you're doing) or getting
+part marks (if we see that you have the right idea but simply made a small
+error, or that you have the wrong idea but wrote it up correctly).
+
+DON'T RAMBLE! Write concise, to-the-point answers. If you ramble, the
+feeling it gives us is that you don't know the correct answer. Also, be
+aware that if you give us a correct answer followed by explanations that are
+clearly wrong or irrelevant, you will lose marks! So only write down what
+you know is correct: if you're not sure, either say so explicitly or don't
+say anything.
+
+On the other hand, if you start writing down an answer and you realize that
+it's wrong, SAY SO! You'll get more part marks for showing that you
+understand your mistake, even if you're not sure how to fix it, than if you
+simply leave it like that (which gives the impression that you don't even
+realize that what you did was wrong).
+
+On a related note, don't feel like you must fill all of the available space:
+it is quite possible that a correct answer will require only part of the
+space for some questions.
+
+RELAX! You'll function much better if you are well-rested and relaxed than
+if you are tired or tense. If you know that you are the type of person who
+gets extremely nervous during a final exam, then take the time to talk to
+other people to find out what they do to relax, or go to the Learning Skills
+Centre in the Koffler building and talk to the people there. They have
+experience helping people cope with "exam anxiety" to allow you to really
+show what you know. In extreme cases, they may recommend that you sign up
+with Accessibility Services, who can provide you with extra time to write
+the exam, etc. -- though at this point, it may be too late to sign up for
+this term.
+

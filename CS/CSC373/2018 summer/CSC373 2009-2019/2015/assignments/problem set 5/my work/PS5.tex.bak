@@ -1,0 +1,84 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{clrscode3e}
+
+\setlength{\parskip}{2ex}
+\newcommand{\qedsymb}{\hfill{\rule{2mm}{2mm}}}
+\newenvironment{proof}{\vspace{-1mm}\begin{trivlist}
+}{\qedsymb\end{trivlist}\vspace{-1mm}}
+
+\begin{document}
+\begin{center}
+{\bf \Large \bf CSC373 Winter 2015 Problem Set \# 5}\\
+Name: Weidong An\\
+Student Number: 1000385095\\
+UTOR email: weidong.an@mail.utoronto.ca\\
+\today\\
+\end{center}
+
+\begin{enumerate}[label=(\alph*)]
+
+\item
+{\bf Algorithm}
+\begin{codebox}
+\Procname{$\proc{Find-Min-Cut}(N, s, t)$}
+\li call Edmonds-Karp algorithm on $(N, s, t)$
+\li $S \gets \{s\}$
+\li $T \gets N.V - S$
+\li $S$-$queue \gets$ empty FIFO queue
+\li $S$-$queue.\proc{Enqueue}(s)$
+\li \While $S$-$queue$ is not empty \# This while loop is to make sure that every vertices in $S$ is checked.
+\li      \Then $u \gets S$-$queue.\proc{Dequeue}()$
+\li            \For each $(u, v) \in N.E$  \# Check all the out-edges of $u$
+\li                          \Then \If $v \in T$ and $f(u, v) < c(u, v)$
+\li                                  \Then $S$-$queue.\proc{Enqueue}(v)$
+\li                                         $S\gets S \cup \{v\}$
+\li                                         $T\gets T - \{v\}$\End\End
+\li             \For each $(v, u) \in N.E$ \# Check all the in-edges of $u$
+\li                    \Then \If $v \in T$ and $f(v, u) > 0$
+\li                             \Then $S$-$queue.\proc{Enqueue}(v)$
+\li                                   $S\gets S \cup \{v\}$
+\li                                         $T\gets T - \{v\}$\End\End\End
+\li \Return $(S, T)$
+\end{codebox}
+
+{\bf Worst Case Running Time}\\
+Let $n = |V|$ and $m = |E|$.\\
+Edmonds-Karp algorithm runs in $O(nm^2)$.\\
+In the worst case, all the vertices except $t$ are enqueued to $S$-$queue$. When checking each vertices, the algorithm check all the edges in the worst case. Therefore the algorithm except line 1 runs in $O(nm)$.\\
+Totally, the algorithm runs in $O(nm^2)$ in the worst case.
+
+\item
+Instead of starting with $S = \{s\}$ and $T = N.V - S$, the following algorithm starts with $T = \{t\}$ and $S = N.V - T$. Then for all $(u, v)$ where $u \in S$ and $v \in T$, if $f(u, v) < c(u, v)$, move $u$ from $S$ to $T$. For all $(u, v)$ where $u \in T$ and $v \in S$, if $f(u, v) > 0$, move $u$ from $S$ to $T$. The pseudocode is as follows:
+\begin{codebox}
+\Procname{$\proc{Find-Min-Cut-With-Small-T}(N, s, t)$}
+\li call Edmonds-Karp algorithm on $(N, s, t)$
+\li $T \gets \{t\}$
+\li $S \gets N.E - T$
+\li $T$-$queue \gets$ empty FIFO queue
+\li $T$-$queue.\proc{Enqueue}(t)$
+\li \While $T$-$queue$ is not empty \# This while loop is to make sure that every vertices in $T$ is checked.
+\li      \Then $u \gets T$-$queue.\proc{Dequeue}()$
+\li            \For each $(v, u) \in N.E$  \# Check all the in-edges of $u$
+\li                          \Then \If $v \in S$ and $f(u, v) < c(u, v)$
+\li                                  \Then $T$-$queue.\proc{Enqueue}(v)$
+\li                                         $T\gets T \cup \{v\}$
+\li                                         $S\gets S - \{v\}$\End\End
+\li             \For each $(u, v) \in N.E$ \# Check all the out-edges of $u$
+\li                    \Then \If $v \in S$ and $f(v, u) > 0$
+\li                             \Then $T$-$queue.\proc{Enqueue}(v)$
+\li                                   $T\gets T \cup \{v\}$
+\li                                         $S\gets S- \{v\}$\End\End\End
+\li \Return $(S, T)$
+\end{codebox}
+{\bf Explanation}\\
+Note that this algorithm also satisfies:\\
+\textbullet For all $(u, v)$ where $u \in S$ and $v \in T$, $f(u, v)=c(u, v)$.\\
+\textbullet For 
+
+
+\end{enumerate}
+
+\end{document}

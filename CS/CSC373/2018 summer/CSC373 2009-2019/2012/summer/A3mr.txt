@@ -1,0 +1,37 @@
+Question 1(a):
+Construction: 2pts
+Proof of correctness: 2pts
+
+Nearly all students got a correct construction. However, most students made the following
+mistake in their proof: they only argued that each flow solution gives us a 
+matching satisfying the Conditions (1)-(4) given in the question. 
+However, we also need to prove: each solution to the original problem corresponds to 
+an (integer valued) flow whose value is the number of applicants assigned to roles in
+the solution. I took away 1pt if this argument is missing from your proof.
+
+
+Question 1(b):
+Construction: 4pts
+Proof of correctness: 2pts
+
+Similarly to 1(a), most students didn't argue that each solution to the original problem 
+corresponds to  an (integer valued) flow whose value is the number of applicants assigned 
+to roles in the solution. I took away 1pt if this argument is missing from your proof.
+
+
+Question 2:
+Construction: 4pts
+Proof of correctness: 2pts
+
+One common mistake is to use the constraint b_1<=b_2<=...<=b_n. Unfortunately, this is not
+yet in the proper form for a linear constraint. Instead, you should use 
+b_1<=b_2
+b_2<=b_3
+....
+b_{b-1}<=b_n
+I took away 1pt for this mistake.
+
+Another common mistake is to forget arguing that each solution b_1,...,b_n to the problem
+corresponds to an LP solution with objective value exactly deviation(b_1,...,b_n). This
+is very similar to the mistakes that students made in Question 1. Again I took away 1pt
+for this mistake. 

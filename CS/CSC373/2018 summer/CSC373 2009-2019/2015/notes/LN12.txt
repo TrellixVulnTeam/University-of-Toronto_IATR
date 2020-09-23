@@ -1,0 +1,163 @@
+=============================================================================
+CSC 373                 Lecture Summary for Week 12               Winter 2015
+=============================================================================
+
+READINGS: Section 35.2.
+SELF-TEST: None for this week!
+
+Traveling Salesman Problem (TSP):
+
+  - Given graph G with edge weights w(e), find a "tour" (Hamiltonian cycle)
+    with minimum total weight.
+
+  - NP-hard: no polytime solution.
+
+  - NP-hard to approximate with constant ratio:
+    Suppose we have an algorithm with approx ratio C, i.e., guaranteed to
+    find tour with total weight <= C * OPT. We show how this algorithm could
+    be used to solve an NP-hard problem.
+    Given an input G to HamCycle problem, construct an instance of TSP G' as
+    follows: on the same vertex set as G, put in all possible edges with
+    w(e) = 1 if e in G, w(e) = Cn+1 if e not in G.
+    Any tour in G' that uses only edges with weight 1 has total weight n;
+    any tour in G' that uses at least one edge with weight Cn+1 has total
+    weight > Cn.
+    If G contains a Ham cycle, then G' contains a tour with total weight n;
+    if G does not contain a Ham cycle, then all tours in G' have total
+    weight > Cn+1 (they must contain at least one edge not in G).
+    So now, run approx. algorithm on G'. If algo returns answer with total
+    weight <= C*n, then G contains a Ham cycle; if algo returns answer with
+    total weight > Cn+1, then G does not contain a Ham cycle. As this solves
+    the Ham cycle problem, approx algorithm cannot run in polytime.
+
+  - Special case: TSP with triangle inequality
+    (w(u,v) <= w(u,w) + w(w,v)  for all u,v,w in V)
+    has a 2-approximation algorithm!
+
+     1. Construct MST of G, T.
+     2. Construct Eulerian tour of G travelling along each edge of T
+        once in each direction, starting from arbitrary leaf f in T.
+     3. Construct tour of G from Eulerian tour:
+          - start with current node c = f and mark it as "visited"
+            (all other nodes "unvisited")
+          - repeat:
+                let n be next node in Eulerian tour
+                if n is unvisited:
+                    add edge (c,n) to cycle
+                    let c = n and mark it as visited
+                # else do nothing (continue with next node n)
+            until n = f
+          - add edge (c,f) -- this closes the tour because
+            c is the last node visited
+
+    [Example -- sorry, too difficult to draw in ASCII. Output is equivalent
+    to version in textbook: order vertices according to preorder traversal
+    of T.]
+
+  - Approximation ratio:
+      . Consider any optimum tour C* and edge e in C* with max weight. C*-e
+        is a Ham. path in G, which is a special kind of spanning tree. Since
+        T is a MST, cost(C*) >= cost(C*-e) >= cost(T).
+      . Consider the tour C found by the algorithm. Then, cost(C) <=
+        2 * cost(T) Since C is obtained from an Eulerian cycle based on T
+        (with cost exactly 2 * cost(T)) by replacing paths (u,w_1),
+        (w_1,w_2), ..., (w_k,v) with the edge (u,v), something that can only
+        make cost(C) smaller, by the triangle inequality.
+      . Putting these two facts together,
+            cost(C) <= 2 * cost(T) <= 2 * cost(C*),
+        i.e., the algorithm has approx. ratio at most 2.
+
+  - A similar idea starting from a perfect matching instead of a MST yields
+    an algorithm with approx ratio 3/2, but the algorithm and proof of
+    approximation ratio are both more complicated.
+
+Knapsack:
+
+  - Input: Weight limit W, items (v_1,w_1),...,(v_n,w_n) where v_i is "value"
+        and w_i is "weight" of item i -- all non-negative integers.
+    Output: Selection of items S (_ {1,...,n} such that total weight of
+        selected items does not exceed W (\sum_{i (- S} w_i <= W) and total
+        value of selected items (\sum_{i (- S}) is maximum.
+
+  - Problem is NP-hard but can be solved using dynamic programming in time
+    \Theta(n V), where V = v_1 + ... + v_n -- W[i,j] stores minimum weight
+    required to achieve total value at least j using items from {1,...,i},
+    for 0 <= i <= n, 0 <= j <= V.
+
+  - If values are large compared to n, time \Theta(n V) not polynomial.
+    Trick: use scaled down values, e.g., if we have three items with values
+    v_1 = 117,586,003, v_2 = 738,493,291, v_3 = 233,827,453, then solve
+    problem with values scaled down to 117, 738, and 233 -- loss of
+    precision may yield solution not optimal for original input, but it
+    should be close.
+
+  - More generally, for any constant \epsilon, scale down values so that
+    largest one becomes floor(n/\epsilon). Then, runtime goes down to
+    \Theta(n^3/\epsilon) and possible to prove approximation is within
+    factor of 1 / (1 - \epsilon) of optimal!
+
+-------------
+Randomization
+-------------
+
+  - Randomized algorithms make use of random numbers. A very important tool.
+
+  - "Las Vegas" algorithms: solution is guaranteed to be correct, but
+    runtime is random (depends on random choices).
+
+  - "Monte Carlo" algorithms: runtime is deterministic, but answer is random
+    (usually, one answer is certain and the other is correct with high
+    probability).
+
+  - Algorithms where both runtime and output are random are not used in
+    practice...
+
+Miller-Rabin primality testing: Given m, is m prime?
+
+  - Recent research result: O(n^3) algorithm (where n = log_2 m). Too slow
+    in practice for large n. Miller-Rabin algorithm is O(n) Monte-Carlo
+    algorihtm with error probability < 1/2.
+
+  - If MR returns "composite", then m is composite.
+    If MR returns "pseudoprime", then m is probably prime.
+
+  - If m is composite, probability MR returns "pseudoprime" < 1/2.
+    Run MR k times (increases runtime to O(k log m) but decreases
+    probability of error to 1/2^k).
+
+  - For most applications where prime numbers are needed (e.g., RSA
+    cryptography), pseudoprime numbers work just as well as prime numbers
+    (even if the pseudoprime number is actually composite).
+
+------------------------------
+Backtracking, branch-and-bound
+------------------------------
+
+Idea: brute-force (try all possibilities) with cutoff: while constructing
+possible solutions, rule out any partial solution that cannot be completed.
+For optimization problem, use easy-to-compute approximation to optimal value
+to bound best value of current partial solution and rule out bad
+possibilities early (called "branch-and-bound").
+
+Uses: SAT solvers for constraint satisfaction problems.
+
+------------
+Local search
+------------
+
+Idea: define notion of "local change" for problem (e.g., replace disjoint
+edges (u_1,v_1), (u_2,v_2) with (u_1,v_2), (u_2,v_1) in TSP circuit), then
+starting from some initial candidate, repeatedly make local change as long
+as it improves value of candidate.
+
+Issues:
+  - Runtime may not be polynomial. Stop process after a certain time --
+    solution will be better than initial, even if not as good as possible.
+  - Locally optimal solutions that are not globally optimal. Handled by
+    running again from multiple starting points, or using "simulated
+    annealing" technique (allowing non-improving changes with some
+    probability that decreases with runtime).
+
+Evolutionary Algorithms (genetic programming) are types of local search
+algorithms.
+

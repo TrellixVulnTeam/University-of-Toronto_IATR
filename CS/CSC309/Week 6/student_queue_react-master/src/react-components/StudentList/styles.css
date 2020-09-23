@@ -1,0 +1,5 @@
+/* Styles for the StudentList React component */
+
+.MuiTable-root.student-list {
+  margin-top: 5%;
+}

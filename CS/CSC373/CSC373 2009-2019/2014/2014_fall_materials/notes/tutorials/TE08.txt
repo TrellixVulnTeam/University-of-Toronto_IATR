@@ -1,0 +1,32 @@
+==============================================================================
+CSC 373                 Tutorial Exercises for Week  8               Fall 2014
+==============================================================================
+
+
+ 1. Show that the following TRIANGLE decision problem belongs to P.
+        Input:  An undirected graph G = (V,E).
+        Question:  Does G contain a "triangle", i.e., a subset of three
+            vertices with all edges between them present in the graph?
+
+
+ 2. Show that the following CLIQUE decision problem belongs to NP.
+        Input:  An undirected graph G = (V,E) and a positive integer k.
+        Question:  Does G contain a k-clique, i.e., a subset of k vertices
+            with all edges between them present in the graph?
+
+
+ 3. Determine whether each of the following decision problems belongs to P, NP
+    or coNP. Justify your answer.
+
+    (a) UNARY-PRIMES
+        Input:  1^n (i.e., a string of '1's of length n).
+        Question:  Is n prime?
+
+    (b) SUBSET-SUM
+        Input:  A set of positive integers S and a positive integer t.
+        Question:  Is there some subset of S whose sum is exactly t?
+
+    (c) NON-ZERO
+        Input:  A set of integers S.
+        Question:  Does every non-empty subset of S have non-zero sum?
+

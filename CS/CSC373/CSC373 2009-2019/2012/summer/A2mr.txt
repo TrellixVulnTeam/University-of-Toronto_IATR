@@ -1,0 +1,50 @@
+                                                                     
+                                                                     
+                                                                     
+                                             
+Q1. Many assignments made their array definition based on the number of opening and closing brackets appearing in the
+    program, while ignoring the _positions_ of the brackets: e.g. ")))(((" would be counted.
+
+    Some solutions also tried to include the fact that if the memory limit l was greater than n/2, then you could ignore it. 
+    While true, this is unnecessary, and made recurrences more complicated without affecting their correctness. Look for
+    a simple answer first, and optimize later!
+
+Q2. Many assignments had a nearly correct recursive definition and array definition, but forgot to sort their input.
+    This meant that their algorithms could infinite loop. A good note when doing DP --- you need some sort of order
+    on your input items, and a lot of the time the order isn't really integral. You just need a way of saying what
+    items you've looked at vs. what items you haven't.
+
+    Some assignments also had the the correct recurrence, but worked from the n'th fruit to the 1st fruit. The problem with
+    this strategy is that it's not clear which fruit to catch last --- many assignments set D[n] = 1, assuming you would
+    catch the last fruit. Of course, there are instances where the optimal solution does _not_ catch the last falling fruit! 
+    
+    Many solutions forgot to include the truck's starting position, and assumed that the truck could "start" wherever it wanted.
+    This is also a bit troublesome, if all of the fruits are falling just out of the trucks range.
+
+    Some assignments made a "greedy" choice, where when collecting fruit (x_i, t_i), they would assume the maximum number of
+    fruits that could be collected would be if they collected "the most recent" fruit that was reachable. This is not true
+    in general!
+
+Q3. Almost all solutions tried this strategy: Use the algorithm from class to find an optimal strategy for player 1, remove those coins,
+    and then run the optimal strategy for player 2 on the remaining coins. The problem here is that the coins that Player 1 collects
+    affects the coins that Player 2 can collect. Consider the following instance on four coins, with positions
+    (x, y) (this instance has been drawn on many assignments, forgive me if you're reading it again):
+    
+    (2,2), (3,5), (4,1), (5,3).
+
+    This instance forms a parallelogram in the plane. Now, these solutions are optimal for Player 1:
+
+    S1 = {(2,2), (3,5)}
+    S2 = {(4,1), (5,3)}
+    S3 = {(2,2), (5,3)}
+    
+    But if Player 1 chooses Solution S3 then Player 2 can only collect a single coin, leading to both Players collecting 3 coins
+    and not the optimal 4.
+
+    Some other solutions did not sort the input in some way. The problem here is that you can't be sure which solutions have been
+    computed and which have not, leading to a recursive algorithm who's time bound is not exactly clear. Also, what happens when
+    two, mutually unreachable coins, both attempt to reach the same third coin? What will the recursive call return if you can't be sure
+    which coin called it first? This leads to some funny bugs! Also, this makes it unclear which coins are the "base cases", which should intuitively
+    be the coins in the top right or the bottom left.
+
+    

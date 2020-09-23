@@ -1,0 +1,30 @@
+Question 1
+
+(a) Keep a lower bound l and an upper bound u on an interval that might possibly contain i such that A[i] = i. Check the middle m = floor((l+u)/2), if A[m] > m then continue the search on the left half, o/w on the right half
+
+(b)
+Seach(A, n)
+  l = 1
+  u = n
+  while l <= u
+    m = floor((l+u)/2)
+    if A[m] == m
+      return m
+    else if A[m] > m
+      u = m-1
+    else
+      l = m+1
+  return "none"
+
+(c)
+If there exists i such that A[i] = i then l <= i <= u.
+
+At termination, we either found m such that A[m] = m or got to a point where l > u. Then the interval l...u is empty, so by the loop invariant there is no such i.
+
+(d)
+Let T(n) denote the number of iterations performed by the algorithm when u-l+1 = n. Then we have
+
+T(n) <= T(n/2) + 1 if n > 0 and
+T(0) = 0
+
+Thus, by the Master's theorem we have T(n) = O(log n) and each iteration takes O(1) time. Thus, overall runtime is O(log n).

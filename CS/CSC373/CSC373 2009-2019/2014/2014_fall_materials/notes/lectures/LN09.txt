@@ -1,0 +1,290 @@
+==============================================================================
+CSC 373                  Lecture Summary for Week  9                 Fall 2014
+==============================================================================
+
+READINGS: Sections 34.4, 34.5.
+SELF-TEST: No suitable exercise in the textbook...
+
+  - Cook's Theorem: SAT is NP-complete.
+
+      . SAT in NP: (last time)
+
+      . SAT is NP-hard (main idea):
+        Let D be any problem in NP. By definition, there is a polytime
+        verifier V(x,c) for D. This polytime verifier can be implemented as a
+        circuit with input gates representing the values of x and c. For any
+        input x for D, we can hard-code the value of x into this circuit in
+        such a way that there is a value of the certificate for which the
+        verifier outputs "yes" iff there is some setting of the input gates
+        corresponding to c that make the circuit output 1. It's possible to
+        show that this transformation can be carried out in polynomial time
+        (as a function of the size of x), and it's also possible to show that
+        this circuit can then be translated into a formula in CNF (in
+        polytime) such that settings of the circuit's input gates correspond
+        to settings of the formula's variables.
+
+        This shows that Circuit-SAT, SAT, and CNF-SAT are all NP-hard.
+
+NP-hardness:
+
+  - How do we show D is NP-hard? Don't want to re-prove Cook's Theorem from
+    scratch for each problem! Luckily, <=p can help.
+
+  - If A <=p B and B <=p C, then A <=p C:
+      . A <=p B means there is a polytime computable transformation f such
+        that for all x, x in A iff f(x) in B;
+      . B <=p C means there is a polytime computable transformation g such
+        that for all y, y in B iff g(y) in C;
+      . then, g(f(x)) is a polytime computable transformation -- because
+        |f(x)| is polynomial in |x| so g(f(x)) runs in time polynomial in
+        |f(x)|, which is polynomial in |x| -- such that for all x,
+        g(f(x)) in C iff f(x) in B iff x in A.
+    Hence, A <=p C by definition.
+
+  - In general, to show D is NP-hard, it is sufficient to find some NP-hard
+    problem D' and prove D' <=p D because D' NP-hard -> for all D'' in NP,
+    D'' <=p D' so D'' <=p D (since D' <=p D).
+
+NP-completeness examples
+
+  - VERTEX-COVER:
+    Input: Undirected graph G = (V,E), positive integer k.
+    Output: Does G contain a vertex cover of size k, i.e., a subset C of k
+        vertices such that each edge of G has at least one endpoint in C?
+
+  - VERTEX-COVER (VC) is NPc:
+    VC in NP: Given G,k,c, verify in polytime that c represents a vertex cover
+    of size k in G.
+    VC is NP-hard: 3SAT <=p VC.
+    Given F = (a1 \/ b1 \/ c1) /\ ... /\ (ar \/ br \/ cr), where ai,bi,ci in
+    {x1,~x1,x2,~x2,...,xs,~xs}, construct G=(V,E) and k such that F
+    satisfiable iff G contains vertex cover of size k, as follows:
+        k = s + 2r
+        V = { a1,b1,c1, ..., ar,br,cr, x1,~x1, ..., xs,~xs }
+        E = { (xi,~xi) : 1 <= i <= s } U
+            { (ai,bi),(bi,ci),(ci,ai) : 1 <= i <= r } U
+            { (l,x) : l = ai or bi or ci, and x = xj or ~xj
+                      corresponding to l }
+    For example, if
+    F = (x1 \/ ~x2 \/ ~x4) /\ (x2 \/ ~x3 \/ x1) /\ (~x3 \/ x4 \/ ~x2),
+    then a1=x1, b1=~x2, c1=~x4, a2=x2, b2=~x3, c2=x1, a3=~x3, b3=x4, c3=~x2 so
+    k = 4 + 2*3 = 10
+    V = {a1,b1,c1, a2,b2,c2, a3,b3,c3, x1,~x1, x2,~x2, x3,~x3, x4,~x4}
+    E = { (x1,~x1), (x2,~x2), (x3,~x3), (x4,~x4),
+          (a1,b1), (b1,c1), (c1,a1), (a1,x1), (b1,~x2), (c1,~x4),
+          (a2,b2), (b2,c2), (c2,a2), (a2,x2), (b2,~x3), (c2,x1),
+          (a3,b3), (b3,c3), (c3,a3), (a3,~x3), (b3,x4), (c3,~x2) }
+
+    Clearly, construction can be done in polytime (with one scan of F).
+
+    Also, if F is satisfiable, then there is an assignment of truth values
+    that make at least one literal in each clause true. Pick a cover C as
+    follows: for each variable, C contains xi or ~xi, whichever is true under
+    the truth assignment; for each clause, C contains every literal except one
+    that's true (pick arbitrarily if more than one true literal). C contains
+    exactly s+2r vertices and is a cover: all edges (xi,~xi) are covered; all
+    edges in clause triangles are covered (because we picked two vertices from
+    each triangle); all edges between "clauses" and "variables" are covered
+    (two from inside triangle, one from true literal for that clause).
+
+    Finally if G contains a cover C of size k=s+2r, C must contain at least
+    one of xi or ~xi for each i (because of edges (xi,~xi)) and at least two
+    of ai,bi,ci for each i (because of triangle), so only way for C to have
+    size s+2r is to contain exactly one of xi or ~xi and exactly two of
+    ai,bi,ci, for each i. Since C covers all edges with only two vertices per
+    triangle, the third vertex in each triangle must have its "outside" edge
+    covered because of xi or ~xi. If we set literals according to choices of
+    xi or ~xi in C, this will make formula F true: at least one literal will
+    be true in each clause (because at least one edge from "variables" to
+    "clauses" is covered by the variable in C).
+
+  - SUBSET-SUM: Given a finite set of positive integers S and a positive
+    integer target t, is there some subset S' of S whose sum is exactly t,
+    i.e., -] S' (_ S, SUM_{x in S'} x = t?
+
+  - SS is NPc:
+    SS in NP because it takes polytime to verify that the certificate
+    represents a subset of S whose sum is t (addition of two numbers takes
+    linear time; addition of k numbers takes time proportional to the sum of
+    the bit-lengths of all the numbers).
+    SS is NP-hard because 3SAT <=p SS:
+    Given formula F = (a1 \/ b1 \/ c1) /\ ... /\ (ar \/ br \/ cr) where
+    ai,bi,ci in {x1,~x1,...,xs,~xs}, construct numbers as follows:
+      . For j = 1,...,s,
+        number xj = 1 followed by s-j 0s followed by r digits where
+        k-th next digit equals 1 if xj appears in clause C_k, 0 otherwise;
+        number ~xj = 1 followed by s-j 0s followed by r digits where
+        k-th next digit equals 1 if ~xj appears in clause C_k, 0 otherwise.
+      . For j = 1,...,r,
+        number Cj = 1 followed by r-j 0s and
+        number Dj = 2 followed by r-j 0s.
+      . Target t = s 1s followed by r 4s.
+    Clearly, this can be constructed in polytime.
+
+    Example of reduction for
+    F = (x1 \/ ~x2 \/ ~x4) /\ (x2 \/ ~x3 \/ x1) /\ (~x3 \/ x4 \/ ~x2):
+    S = {  x1 = 1000110,
+          ~x1 = 1000000,
+           x2 =  100010,
+          ~x2 =  100101,
+           x3 =   10000,
+          ~x3 =   10011,
+           x4 =    1001,
+          ~x4 =    1100,
+           D1 =     200,
+           C1 =     100,
+           D2 =      20,
+           C2 =      10,
+           D3 =       2,
+           C3 =       1 }
+            t = 1111444
+
+    If F is satisfiable, then there is a setting of variables such that each
+    clause of F contains at least one true literal. Consider the subset S' =
+    {numbers that correspond to true literals}. By construction,
+    SUM_{x in S'} x = s 1s followed by r digits, each one of which is either
+    1, 2, or 3 (because each clause contains at least one true literal). This
+    means it is possible to add suitable numbers from {C1,D1,...,Cr,Dr} so
+    that the last r digits of the sum are equal to 4, i.e., there is a subset
+    S' such that SUM_{x in S'} x = t.
+
+    If there is a subset S' of S such that SUM_{x in S'} x = t, then S' must
+    contain exactly one of {xj,~xj} for j = 1,...,n, because that is the only
+    way for the numbers in S' to add to the target (with a 1 in the first s
+    digits). Then, F is satisfied by setting each variable according to the
+    numbers in S': for each clause j, the corresponding digit in the target is
+    equal to 4 but the numbers Cj and Dj together only add up to 3 in that
+    digit; this means that the selection of numbers in S' must include some
+    literal with a 1 in that digit, i.e., clause j contains at least one true
+    literal.
+
+------------------------------------------------------------------------------
+The material below was not covered during lectures -- it is provided here for
+your reference.
+
+Template for proofs of NP-completeness: To show A is NPc, prove that
+
+    A in NP: Describe a polytime verifier for A.
+            "Given (x,c), check c has correct format and properties..."
+        Argue that verifier runs in polytime and that
+        x is a yes-instance iff verifier outputs "yes" for some c.
+
+    Note that all problems in NP we've seen so far have a similar structure to
+    their definition: "the answer for object A is Yes iff there is some
+    related object B such that some property holds about A and B" -- for
+    example, for CLIQUE: "the answer for undirected graphs G and integers k is
+    Yes iff there is a subset of vertices C that forms a k-clique in G". For
+    all such problems, the verifier will also have a common structure: "on
+    input (A,c), check that c encodes an object B and that A and B have the
+    required property". Because of the way these decision problems are
+    defined, this guarantees (A,c) is accepted for some c iff A is a
+    yes-instance. All that remains is to ensure checking property of A,B can
+    be done in polytime.
+
+    A is NP-hard: Show B <=p A for some NP-hard B.
+            "Given x, construct y_x as follows: ..."
+        Argue that construction can be carried out in polytime and that
+        x yes-instance iff y_x yes-instance (often by showing x yes-instance
+        => y_x yes-instance and y_x yes-instance => x yes-instance)
+        In more detail, this involves:
+          . starting with arbitrary input y for B (i.e., without making any
+            assumption about whether y is a yes-instance or a no-instance),
+          . describing explicit construction of specific input x_y for A,
+          . arguing construction can be carried out in polytime,
+          . arguing if y is a yes-instance, then so is x_y,
+          . arguing if x_y is a yes-instance, then so was y (or equivalently,
+            if y is a no-instance, then so is x_y).
+        Watch last step! Argument starts from x_y constructed earlier (not
+        from arbitrary input x for A), and relates it to arbitrary y that x_y
+        was constructed from.
+
+    Traps to watch out for:
+      . Direction of reduction: must start from arbitrary input x for B
+        (cannot place any restrictions on input; reduction must work with all
+        possible inputs) and explicitly construct specific input y_x for A.
+      . "Reduction" that does something different for yes-instances vs.
+        no-instances: this would involve telling the difference, which can't
+        be done in polytime when B is NP-hard.
+
+Extra example: 3SAT is NPc.
+3SAT in NP because it's a special case of SAT.
+CNF-SAT <=p 3SAT:
+Given <F> (a CNF formula), construct <F'> (a 3-CNF formula) such that F is
+satisfiable iff F' is satisfiable, as follows. Note that it is not necessary
+to make F and F' logically equivalent in order to achieve this. For each
+clause C of F:
+
+  - If C = (a1), then replace C with (a1 \/ a1 \/ a1).
+
+  - If C = (a1 \/ a2), then replace C with (a1 \/ a1 \/ a2).
+
+  - If C = (a1 \/ a2 \/ a3), then leave C the same.
+
+  - If C = (a1 \/ a2 \/ ... \/ ar) where r > 3, then replace C with
+    (a1 \/ a2 \/ z1) /\ (~z1 \/ a3 \/ z2) /\ (~z2 \/ a4 \/ z3) /\ ...
+     /\ (~z{r-4} \/ a{r-2} \/ z{r-3}) /\ (~z{r-3} \/ a{r-1} \/ ar),
+    where z1, z2, ..., z{r-3} are new variables (not in F).
+
+For example, if
+    F = (x1 \/ x2) /\ (~x1) /\ (x2 \/ ~x3 \/ x3 \/ x5 \/ ~x4)
+then
+    F' = (x1 \/ x1 \/ x2) /\ (~x1 \/ ~x1 \/ ~x1) /\
+         (x2 \/ ~x3 \/ z3) /\ (~z3 \/ x3 \/ z4) /\ (~z4 \/ x5 \/ ~x4)
+
+Clearly, this transformation can be carried out in polytime: at most, each
+clause of length r gets replaced with O(r) 3-clauses using O(r) new variables.
+
+Also, if F is satisfiable, then there is an assignment of truth values to the
+variables of F that makes at least one literal true in each clause of F. This
+assignment can be extended to include values for the new variables of F' that
+will make each clause of F' true:
+
+  - For 1-/2-/3-clauses of F with at least one true literal, the corresponding
+    clause in F' is also true because it contains the same literals, at least
+    one of which is true.
+
+  - For r-clauses of F with at least one true literal, say the original clause
+    is (a1 \/ a2 \/ ... \/ ar) and the true literal is ai. Then pick values
+    for the new variables as follows:
+      . if i=1 or i=2, then (a1 \/ a2 \/ z1) is satisfied so pick
+        z1 = z2 = ... = z{r-3} = false to satisfy every other clause;
+      . if i=r-1 or i=r, then (~z{r-3} \/ a{r-1} \/ ar) is satisfied so pick
+        z1 = z2 = ... = z{r-3} = true to satisfy every other clause;
+      . if 2 < i < r-1, then (~z{i-2} \/ ai \/ z{i-1}) is satisfied so pick
+        z1 = z2 = ... = z{i-2} = true to satisfy the first i-2 clauses and
+        pick z{i-1} = zi = ... = z{r-3} = false to satisfy the last r-i-1
+        clauses.
+    For example, if x3 = true satisfies (x2 \/ ~x3 \/ x3 \/ x5 \/ ~x4), then
+    pick z1 = true and z2 = false to satisfy
+        (x2 \/ ~x3 \/ z1) /\ (~z1 \/ x3 \/ z2) /\ (~z2 \/ x5 \/ ~x4)
+    (the first clause is satisfied by z1 = true, the second clause is
+    satisfied by x3 = true, the last clause is satisfied by z2 = false).
+
+Finally, if F' is satisfiable, then the assignment of values to the variables
+of F' must include values to the variables of F that satisfy F:
+
+  - If the new clauses
+    (a1 \/ a2 \/ z1) /\ (~z1 \/ a3 \/ z2) /\ (~z2 \/ a4 \/ z3) /\ ...
+     /\ (~z{r-4} \/ a{r-2} \/ z{r-3}) /\ (~z{r-3} \/ a{r-1} \/ ar)
+    are satisfied, then let zi be the first new variable set to false (so
+    either i = 1 or z1 = z2 = ... = z{i-1} = true):
+      . if i = 1, then (a1 \/ a2 \/ z1) can only be satisfied by setting
+        a1 = true or a2 = true;
+      . if i > 1, then (~z{i-1} \/ a{i+1} \/ zi) can only be satisfied by
+        setting a{i+1} = true;
+    in all cases, one of the original literals must be set to true so the
+    original clause (a1 \/ a2 \/ ... \/ ar) is also satisfied.
+
+  - If the new clause (a1 \/ a2 \/ a3) is satisfied, then the original clause
+    is also satisfied because it's the same, and similarly for the new clauses
+    (a1 \/ a1 \/ a2) and (a1 \/ a1 \/ a1), because they are logically
+    equivalent to the original clauses.
+
+We have shown that any CNF formula F can be transformed in polytime to a 3-CNF
+formula F' such that F is satisfiable iff F' is satisfiable; this completes
+the polytime reduction from CNF-SAT to 3SAT.
+
+Note: Careful with directions! Trivially, 3SAT <=p CNF-SAT (3SAT is special
+case of CNF-SAT). But in this case, we need other direction, transforming
+instances of general problem into instances of restricted problem.
+

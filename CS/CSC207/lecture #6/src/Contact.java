@@ -1,0 +1,41 @@
+/** A person with an email and a phone number. */
+public class Contact {
+    private  String name;
+    private  String phone;
+    private  String email;
+
+    public Contact(String name, String phone, String email){
+        this.setName(name);
+        this.setPhone(phone);
+        this.setEmail(email);
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public  String toString(){
+        return this.name + " | " + this.phone + " | " + this.email;
+    }
+}

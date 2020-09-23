@@ -1,0 +1,17 @@
+module memory(
+	input SW,
+	input KEY,
+	output HEX5, HEX4, HEX2, HEX0
+	);
+	
+	wire [3:0] q;
+	
+	ram32x4 r0(
+		.address(SW[8:4]),
+		.clock(KEY[0]),
+		.data(SW[3:0]),
+		.wren(SW[9]),
+		.q(q));
+	
+
+endmodule

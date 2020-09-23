@@ -1,0 +1,33 @@
+==============================================================================
+CSC 373                 Tutorial Exercises for Week  2               Fall 2014
+==============================================================================
+
+
+ 1. (a) Prove or disprove: If e is a minimum-weight edge in connected graph
+        G (where not all edge weights are necessarily distinct), then every
+        minimum spanning tree of G contains e.
+
+    (b) Does your answer change if w(e) is unique (no other edge in G has
+        the same weight as e, but w(e) is still the smallest)? Again, prove
+        your answer.
+
+   *(c) Explore: what is the most general property of an edge e, in the most
+        general kind of input graph G, for which you can guarantee that e
+        either belongs (or does not belong) to every MST of G? What if we
+        only require that it belongs (or does not belong) to some MST?
+
+
+ 2. Consider the "reverse-delete" algorithm to find MSTs:
+
+        sort edges so w(e_1) >= ... >= w(e_n)
+        T = E
+        for j = 1,2,...,m:
+            if T - {e_j} is connected:
+                T = T - {e_j}
+        return T
+
+    (a) Prove that this algorithm always finds a MST.
+
+   *(b) What is the most efficient implementation you can think of, and what
+        is its worst-case running time?
+

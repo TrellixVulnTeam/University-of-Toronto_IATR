@@ -1,0 +1,33 @@
+/* CSC309: Box model stylesheet */
+
+html, body {
+	margin: 0;
+	height: 100%;
+}
+
+#box1 {
+	background-color: salmon;
+	height: 100vh;
+	width: 30%;
+	float: left;
+}
+
+#box2 {
+	background-color: MediumAquamarine;
+	width: 70%;
+	float: left;
+}
+
+#box3 {
+	background-color: Indigo;
+	color: white;
+}
+
+.relative {
+	position: relative;
+}
+
+.absolute {
+	position: absolute;
+}
+

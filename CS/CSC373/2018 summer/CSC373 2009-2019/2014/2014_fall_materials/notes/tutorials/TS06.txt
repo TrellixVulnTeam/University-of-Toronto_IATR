@@ -1,0 +1,94 @@
+==============================================================================
+CSC 373                 Tutorial Solutions for Week  6               Fall 2014
+==============================================================================
+
+
+ 1. Given input, create network with vertices p_1,...,p_n, c_1,...,c_m, s, t;
+    and edges (s,p_i) of capacity L_i for each p_i, (c_j,t) of capacity S_j
+    for each c_j, edges (p_i,c_j) of capacity 1 for each p_i,c_j such that p_i
+    is available to teach c_j.
+      - Any assignment of profs to courses yields flow in network: set
+        f(p_i,c_j) = 1 if p_i assigned c_j, 0 otherwise; set f(s,p_i) = number
+        of courses assigned to p_i; set f(c_j,t) = number of profs assigned to
+        c_j. Value of this flow = number of course sections assigned. This
+        implies maximum flow in network at least as large as maximum number of
+        course sections that can be assigned.
+      - Any integer flow in network yields assignment of profs to courses:
+        assign p_i to c_j iff f(p_i,c_j) = 1. By capacity constraints, no prof
+        can be assigned more than L_i courses, no course can be assigned more
+        than S_j profs, and no prof will be assigned to a course they are not
+        available to teach. This means the maximum number of courses sections
+        that can be assigned is at least as large as the maximum flow value
+        for the network.
+    In other words, maximum flow value = maximum number of course sections
+    that can be assigned. So, find max flow f (in polytime). Then, if |f| =
+    L_1 + ... + L_n = S_1 + ... + S_m, it is possible to assign profs to
+    courses to satisfy all constraints (as indicated above); otherwise it
+    is not. If it is not possible, max flow yields max assignment possible.
+    This could be used to determine set of courses that can be offered, or
+    maximum teaching load for profs, for example.
+
+
+ 2. (a)  1. Create network N = (V,E) as follows:
+            - V = { source s, nodes c_1,...,c_n (for clients),
+                    nodes b_1,...,b_m (for base stations), sink t }
+            - E = { (s,c_i) with capacity 1 for all c_i,
+                    (c_i,b_j) with capacity 1 for all c_i,b_j close enough,
+                    (b_j,t) with capacity L }
+         2. Use Ford-Fulkerson algorithm to find maximum integer flow f in N.
+         3. Connect c_i to b_j for all c_i,b_j such that f(c_i,b_j) = 1; don't
+            connect when f(c_i,b_j) = 0.
+
+        Any set of connections yields a valid flow by setting
+          - f(s,c_i) = 1 if c_i connected (0 otherwise),
+          - f(c_i,b_j) = 1 if c_i connected to b_j (0 otherwise),
+          - f(b_j,t) = number of clients connected to b_j.
+        It is easy to see this respects capacity constraints and conservation
+        at each node c_i and b_j. So the maximum flow value is at least as
+        large as the number of clients that can be connected.
+
+        Any integer flow yields connections by connecting c_i to b_j iff
+        f(c_i,b_j) = 1. By capacity constraints, no client can be connected to
+        more than one base station and no base station can have more than L
+        clients connected. So the maximum number of clients that can be
+        connected is at least as large as the maximum flow value.
+
+        Hence, maximum flow value = maximum number of clients that can be
+        connected. So finding maximum flow gives best way to connect clients.
+
+    (b) Use variable x_{i,j} for each pair c_i,s_j close enough.
+
+        Maximize \sum_{i,j} x_{i,j} (total number of clients connected)
+        subject to:
+             A. \sum_j x_{i,j} <= 1, for all i
+                (c_i connected to at most one base station)
+             B. \sum_i x_{i,j} <= L, for all j
+                (s_j has at most L clients connected)
+             C. x_{i,j} in {0,1}, for all x_{i,j}
+                (either c_i connected to s_j or not)
+
+        Any set of connections yields feasible solution by setting x_{i,j} = 1
+        if c_i is connected to s_j (x_{i,j} = 0 otherwise): constraints C
+        automatically satisfied, constraints A satisfied since each client is
+        connected to at most one station, and constraints B satisfied since
+        each station connected to at most L clients. So the maximum objective
+        value is at least as large as the maximum number of clients that can
+        be connected.
+
+        Any feasible solution yields a set of connections by connecting c_i to
+        s_j iff x_{i,j} = 1. By constraints A, each client is connected to at
+        most one station and by constraints B, each station is connected to at
+        most L clients. And since variables x_{i,j} are either 0 or 1 (by
+        constraints C) and are defined only for pairs c_i,s_j close enough,
+        the range constraint is satisfied. So the maximum number of clients
+        that can be connected is at least as large as the maximum objective
+        value.
+
+        Hence, maximum objective value = maximum number of clients that can be
+        connected, and any optimal solution to the linear program yields an
+        optimal set of connections.
+
+        However, constraints C make this an instance of *Integer Programming*
+        (IP), not general Linear Programming (LP). In general, IP problems
+        cannot be solved in polytime...
+

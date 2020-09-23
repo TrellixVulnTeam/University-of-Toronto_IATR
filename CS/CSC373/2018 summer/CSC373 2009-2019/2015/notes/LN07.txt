@@ -1,0 +1,232 @@
+=============================================================================
+CSC 373                  Lecture Summary for Week  7              Winter 2015
+=============================================================================
+
+READINGS: Re-read 26.3, 29.2; Sections 34.intro, 34.1, 34.2.
+SELF-TEST: Exercises 34.1-2, 34.1-3.
+
+Applications of Linear Programming and Network Flows:
+
+  - Network flows: Given network N=(V,E) with capacities c(e) for e in E,
+    construct linear program with variables f_e (one for each e in E):
+        maximize:  \sum_{(s,u) in E} f_(s,u)
+        subject to:
+            0 <= f_e <= c(e)  for all e in E
+            \sum_{(u,v) in E} f_(u,v) - \sum_{(v,u) in E} f_(v,u) = 0
+                for all v in V
+    Direct re-statement of network flow problem: all valid flows in N yield
+    values for f_e that satisfy all constraints ("feasible" values), and all
+    feasible values for f_e are valid flow in N. So finding max flow in N
+    equivalent to maximizing objective function.
+
+    Might this allow us to solve max flow problem more easily or faster?
+    Unfortunately not: solving LP no more efficient than solving max flow
+    (not surprisingly since problem is "more general"). One more catch: LP
+    solution cannot guarantee integer flow on all edges (even when all edge
+    capacities are integer) -- in contrast with Ford-Fulkerson algorithm (and
+    its implementations) that guarantees integer flows in that case.
+
+  - Shortest s-t path: Given graph G = (V,E) with weights w(e) for all e in
+    E, construct linear program with variables d_v for each v in V:
+        maximize:    d_t
+        subject to:  d_v <= d_u + w(u,v)  for each (u,v) in E
+                     d_s = 0
+                     d_v >= 0  for each v in V
+    Minimizing d_t doesn't work because it allows settings of d_v smaller
+    than true distances (e.g., d_v = 0 for all v in V). Maximizing works
+    because constraints force d_v to be no more than shortest distance and
+    maximization forces d_v to be at least shortest distance, for all v.
+
+    Example: Graph with vertices V = {s,a,b,t} and edges (s,a) with weight 1,
+    (s,t) with weight 6, (a,b) with weight 2, (a,t) with weight 4,
+    (b,t) with weight 1.
+    Linear program (each edge yields two constraints):
+        maximize:  d_t
+        subject to:
+            d_s = 0
+            0 <= d_a <= d_s + 1    0 <= d_s <= d_a + 1
+            0 <= d_b <= d_a + 2    0 <= d_a <= d_b + 2
+            0 <= d_t <= d_s + 6    0 <= d_s <= d_t + 6
+            0 <= d_t <= d_a + 4    0 <= d_a <= d_t + 4
+            0 <= d_t <= d_b + 1    0 <= d_b <= d_t + 1
+
+  - Project selection:
+    Input: Projects P each with revenue p_i (integer, can be positive, zero
+        or negative), prerequisites between projects (given as directed graph
+        on vertices P with edges (i,j) meaning project i depends on j).
+    Output: A "feasible" subset A of P with maximum total revenue (set A
+        feasible means for each i (- A, A contains all i's prerequisites).
+
+    Example: A:3, B:10, C:7, D:5, E:-4, F:-2, G:-3, H:-1, I:-2, J:-7;
+    A->{D,E}, B->{A,E,F}, C->{F,G}, D->{H}, E->{H,I}, F->{I}, G->{I,J}.
+
+    Unlike other examples, this can be solved by network flow techniques
+    where we are interested in minimum cuts (flow values are irrelevant).
+    Construct network N from G as follows:
+      . Add source s, sink t.
+      . Add edges (s,i) with capacity p_i for each i such that p_i >= 0.
+      . Add edges (i,t) with capacity -p_i for each i such that p_i < 0.
+      . Set capacity of all other edges (i,j) to C+1, where
+        C = \sum_{p_i >= 0} p_i.
+    Find a minimum cut (S,T) in N. Then S-{s} is a feasible subset of
+    projects with maximum profit! This requires proof...
+
+    Claim 1: S - {s} is feasible for all cuts (S,T) with capacity at most C.
+    Proof:
+        c(S,T) <= C implies no edge (i,j) (with capacity C+1) crosses the
+        cut forward, i.e., for all projects i (- S, S contains all of i's
+        prerequisites.
+
+    Claim 2: c(A u {s}, ~A u {t}) = C - \sum_{i (- A} p_i = C - profit(A) for
+        all feasible sets of projects A (where ~A = P-A).
+    Proof:
+        Since A is feasible, no edge (i,j) with capacity C+1 crosses the cut
+        forward (some may cross backward).
+        Forward edges crossing the cut fall into two groups:
+          . entering sink contribute \sum_{i (- A, p_i < 0} -p_i
+          . leaving source contribute \sum_{i (- ~A, p_i >= 0} p_i
+            = C - \sum_{i (- A, p_i >= 0} p_i (since C = \sum_{p_i >= 0} p_i
+            = \sum_{i (- A, p_i >= 0} p_i + \sum_{i (- ~A, p_i >= 0} p_i)
+        So total capacity of cut is
+            \sum_{i (- A, p_i < 0} -p_i + C - \sum_{i (- A, p_i >= 0} p_i
+          = C - \sum_{i (- A} p_i = C - profit(A).
+
+    These two facts imply that feasible sets of projects and cuts with
+    capacity at most C correspond to each other. Since the minimum cut
+    capacity in the network is at most C (because the cut ({s},V-{s}) has
+    capacity exactly C), any minimum-capacity cut (S,T) yields a
+    maximum-profit set S-{s}.
+
+  - Minimum Vertex Cover:
+        Input:  Undirected graph G = (V,E).
+        Output:  Subset of vertices C that "covers" every edge (i.e., each
+            edge has at least one endpoint in C), with minimum size.
+
+      . Representing as *integer* program:
+        use variable x_i for each vertex v_i in V
+            minimize:    x_1 + x_2 + ... + x_n
+            subject to:  x_i + x_j >= 1    for all (v_i,v_j) in E
+                         0 <= x_i <= 1    for all v_i in V
+        Note that last constraint equivalent to "x_i in {0,1}" when x_i
+        restricted to integer values. Also, this 0-1 integer program is
+        completely equivalent to the original problem, through
+        correspondence: v_i in cover iff x_i = 1. In more detail:
+          - Any vertex cover C yields feasible solution
+                x_i = 1 if v_i in C, 0 if v_i not in C
+            because each constraint x_i + x_j >= 1 satisfied (C must include
+            one endpoint of each edge).
+          - Any feasible solution to LP yields vertex cover
+                C = { v_i in V : x_i = 1 }
+            because for each edge (v_i,v_j), constraint x_i + x_j >= 1
+            ensures C contains at least one of v_i, v_j.
+
+        Unfortunately, Integer Programming (IP) is NP-hard, so problem cannot
+        be solved in polytime this way.
+
+--------
+P and NP
+--------
+
+Review and Overview:
+
+  - So far, we've seen:
+      . problems solvable efficiently by "simple" algorithms (greedy);
+      . problems that cannot be solved efficiently by simple techniques, but
+        that can be solved efficiently by more complex algorithms (limited
+        backtracking/network flows, dynamic programming);
+      . problems that cannot be solved efficiently by any known algorithm
+        (the only known solutions involve unlimited backtracking or
+        exhaustive search).
+
+  - Wishlist (given a problem to solve):
+      . General method for figuring out best algorithmic method to solve the
+        problem. For certain types of problems, this is possible (e.g.,
+        "matroid theory" for greedy algorithms). For others, only
+        trial-and-error and experience can help.
+      . General method for proving problem has no efficient solution. For
+        certain problems, this is possible. For others (the majority), no
+        guarantees are known -- though we can get close, as we will see.
+
+Running times and input size:
+
+  - To discuss problem complexity, need to be more precise about computation
+    model (recursive functions, Turing machines, RAM model, etc.) and
+    specific measure of input size.
+
+  - To be more precise, consider "bit-size": each integer x requires size
+    floor(log_2(x+1)) -- approx. log_2 x. For example, bit size of list
+    [x_1,...,x_n] is
+            log_2 x_1 + ... + log_2 x_n <= n log_2(max(x_1,...,x_n)).
+    With additional assumption that integers take up constant number of bits,
+    this is equivalent to n within a constant factor -- but that assumption
+    does not always hold!
+
+  - As it turns out, different models of computation and different ways of
+    measuring input size can affect running time by at most polynomial
+    factors (e.g., doubling, squaring, etc.), e.g., problems solved in time
+    \Theta(n) on one model may require time \Theta(n^3) on another model.
+
+  - Two exceptions:
+      . Representing integers in "unary" notation (i.e., integer k
+        represented using k many 1's) requires exponentially many more
+        characters than binary (or any other base), so we rule this out.
+      . Non-deterministic models of computation appear to solve certain
+        problems exponentially faster than deterministic ones.
+
+  - How to handle differences of more than constant factor? Use coarser
+    scale: ignore polynomial differences. Luckily, any polytime algo as a
+    function of informal "size" is also polytime as a function of bitsize, as
+    long as it uses only "reasonable" primitive operations -- comparisons,
+    addition, subtraction -- other operations (multiplication,
+    exponentiation) are _not_ considered "reasonable" because repeated
+    application of the operation can make the result's size grow
+    exponentially. This does not mean that we cannot use multiplication, just
+    that we cannot count it as a primitive operation.
+
+Decision problems, P, and NP:
+
+  - Decision Problem: problem D where solution is a single yes/no answer.
+    e.g., "Given graph G, vertices s,t, is there a path from s to t?" "Given
+    weighted graph G, bound b, is there a spanning tree of G with total
+    weight <= b?"
+
+  - Why limit ourselves to decision problems?
+    We want to prove negative results (that problems have no efficient
+    solution). Intuitively, decision problems are "easier" than corresponding
+    optimization/search problems, so if we can show that a decision problem
+    is hard (has no efficient algorithm), this would imply that the more
+    general problem is also hard. Also, turns out in most cases, search
+    problem can be solved with the help of an algorithm for the decision
+    problem. We'll make this precise later...
+
+  - The class P: All decision problems that have polytime algorithms.
+
+  - The class NP: All decision problems D that can be solved by a
+    "generate-and-verify" algorithm with the following structure:
+        On input x:
+            generate all "certificates" c, and for each one:
+                # "verification" phase
+                if verify(x,c):
+                    return True  # property holds for current certificate c
+            return False  # property fails for every certificate c
+    where the verification phase (the call verify(x,c)) runs in worst-case
+    polynomial time, as a function of size(x). The time required to run the
+    entire algorithm may be exponential but for NP, we care only about the
+    time for the verify phase.
+
+  - Example: COMPOSITE (given positive integer x, does x have any factors?)
+    belongs to NP because it is solved by the following generate-and-verify
+    algorithm:
+        for all integers c = 2,3,...,x-1:
+            if c divides x:
+                return True
+        return False  # no divisor found
+    If x is composite, algorithm outputs True for some value of c. If x is
+    not composite (i.e., x is prime), algorithm returns False. Moreover,
+    verification phase runs in polytime as a function of |x| because basic
+    arithmetic operations are polytime.
+
+    Note: algorithm does *not* run in overall polynomial time! Runtime
+    Theta(x) sounds good, except remember: size(x) = log_2 x. So as a
+    function of n = size(x), runtime is Theta(2^n) -- exponential.
+

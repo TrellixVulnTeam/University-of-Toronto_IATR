@@ -1,0 +1,99 @@
+ITutorial week 10 - Fall 2017
+ 
+
+1. Prove an Omega(m log n) bound on the worst-case sequence complexity of m
+    MAKE-SET, UNION, and FIND-SET operations (n of which are MAKE-SET) using
+    the tree implementation with only union-by-rank (no path compression).
+
+    In order to answer this question, you will need to write down a more
+    detailed implementation of each operation. It's fine to refer to the
+    textbook for inspiration.
+
+
+
+    Algorithms:
+
+        MAKE-SET(x):
+            return Node(x,x,0)  # x's parent is x and x's rank is 0
+
+        FIND-SET(x):
+            while x.parent != x:
+                x <- x.parent
+            return x
+
+        UNION(x,y):
+            w <- FIND-SET(x)
+            z <- FIND-SET(y)
+            if w != z:
+                if w.rank < z.rank:
+                    w.parent <- z
+                else:
+                    z.parent <- w
+                    if z.rank = w.rank:
+                        w.rank <- w.rank + 1
+
+    Consider the following sequence of operations:
+    n MAKE-SETs for elements x_1,...,x_n, followed by
+    n-1 UNIONs (always selecting two sets with the same size for UNIONs,
+    when possible), followed by
+    m - 2n + 1 FIND-SETs on the element with the greatest depth.
+    Because the rank of a tree increases by at most one for each UNION, but
+    the size of a tree roughly doubles at each UNION, the height of the
+    final tree is Omega(log n). This means that each FIND-SET operation
+    takes time Omega(log n) so the entire sequence takes time
+    Omega(m log n - 2n log n + log n) = Omega(m log n).
+
+
+ 2. Consider the following new operation for disjoint sets.
+
+      - PRINT(x): print every element in S_x (the set containing x).
+
+    Explain how to augment the tree data structure for disjoint sets to
+    implement the PRINT operation. Your goal: achieve worst-case running
+    time O(|S_x|) for operation PRINT(x), without affecting the running time
+    of the other operations.
+
+
+"Easy" solution: make each node store two additional pointers -- .next
+    and .tail. Starting from the root of S_x, the .next pointers define a
+    linked list that goes through every element in S_x. The pointer
+    root.tail points to the last node in this linked list, to make UNION
+    easier to implement. Parent pointers are unaffected.
+
+          - MAKE-SET(x):  # Runtime unchanged.
+                return a new Node with
+                .elem <- x
+                .parent <- self
+                .rank <- 0
+                .next <- NIL
+                .tail <- self
+
+          - FIND-SET(x):  # Runtime unchanged.
+                # Unchanged!
+
+          - UNION(x,y):  # Runtime unchanged.
+                w <- FIND-SET(x)
+                z <- FIND-SET(y)
+                if w != z:
+                    if w.rank < z.rank:
+                        w.parent <- z
+                        # Append w's list to z's list.
+                        z.tail.next <- w
+                        z.tail <- w.tail
+                    else:
+                        z.parent <- w
+                        if z.rank = w.rank:
+                            w.rank <- w.rank + 1
+                        # Append z's list to w's list.
+                        w.tail.next <- z
+                        w.tail <- z.tail
+
+          - PRINT(x):  # Runtime = O(|S_x|), as desired.
+                z <- FIND-SET(x)
+                while z != NIL:
+                    print(z.elem)
+                    z <- z.next
+
+
+
+

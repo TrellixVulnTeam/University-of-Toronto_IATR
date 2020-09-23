@@ -1,0 +1,126 @@
+============================================================================
+CSC 373                Tutorial Solutions for Week 12              Fall 2014
+============================================================================
+
+
+ 1. Algorithm:
+        Idea: greedy strategy -- pick vertices with smallest degree first
+
+        Pseudocode:
+            I <- {}
+            while V != {}:
+                select v in V with minimum degree
+                I <- I u {v}
+                let N(v) be the set of neighbours of v in G
+                    (vertices u such that (v,u) is an edge)
+                remove v and each vertex in N(v) from G, as well as
+                    all of their adjacent edges
+            return I
+
+    Runtime:
+        The loop iterates O(n) times, and performs a linear amount of work
+        during each iteration (removing v and its neighbours from G), so
+        total time is O(n^2). Could probably be sped up with appropriate
+        data structures to support finding and removing neighbours.
+
+    Correctness:
+        No two vertices in S are connected by an edge, because every time a
+        vertex is added to S, all of its neighbours are removed from G.
+
+    Approximation ratio:
+
+         Q: What do we have to show again?
+         A: Find a value r such that S >= M / r, where M is the maximum size
+            of any independent set in G and S is the size of the independent
+            set returned by the algorithm.
+
+         Q: But we don't know M, how can we do this?
+         A: Figure out an upper bound U on M (i.e., M <= U), and show
+            instead that S >= U / r (this way, S >= U / r >= M / r).
+
+         Q: That sounds fine in principle. Now how to we find this bound?
+         A: Try something simple first -- if you're lucky, it will work!
+            In this case, we know M <= n = |V|. So let's see if we can show
+            that S >= n / r for an appropriate r.
+
+         Q: Again, this all sounds simple enough in principle. But how do we
+            reason about S? We don't know what kind of set "I" we'll end up
+            with when we run the greedy algorithm.
+         A: The only thing we _can_ do is to reason based on what the
+            algorithm does -- instead of trying to think about the final
+            value of I, let's think about what the algorithm does at each
+            iteration.
+
+            Each time through the loop, the algorithm adds one more vertex
+            to I, then removes that vertex and a number of others from the
+            graph. If we knew how many vertices are removed at each
+            iteration, we could compute the final size of I.
+
+         Q: What can we say about the number of vertices that are removed
+            from G at each iteration?
+         A: We don't know exactly because it depends on the structure of G.
+            But remember we're trying to prove a lower bound on S (the size
+            of I), so all we need to do is figure out how _small_ I could
+            possibly end up being. In other words, if we figure out the
+            _maximum_ number of vertices that can be removed at each
+            iteration, we'll get a lower bound on S.
+
+            Because each vertex in G has degree <= d, the number of vertices
+            removed during one iteration is always at most d + 1 (1 for the
+            vertex v that gets added to I, plus at most d for all of v's
+            neighbours).
+
+         Q: What does this mean for the final size of I?
+         A: Well, we start with n vertices, and remove at most d + 1 of them
+            each time. Before we run out of vertices, this process must be
+            repeated _at_least_ n / (d + 1) times.
+
+            In other words, we know that no matter what happens,
+                S >= n / (d + 1)
+
+         Q: Alright, so we're done now, right?
+         A: Yes! To conclude, we've shown that
+                S >= n / (d + 1) >= M / (d + 1)
+            so the greedy algorithm has approximation ratio at most d + 1.
+
+         Q: Wait! Why did you just say "at most" d + 1 for the approximation
+            ratio? Haven't we shown it's _equal_ to d + 1?
+         A: Not quite: we've shown it's no more than d + 1 but it may be the
+            case that there is no input where it's actually that bad. To
+            conclude that it is equal to d + 1, we would need to find some
+            examples where the algorithm actually finds an independent set
+            whose size is equal to M / (d + 1) -- _then_, we would know that
+            the ratio is exactly equal to d + 1. Until we've found such an
+            example, we don't know if it is possible for the algorithm to be
+            "as bad" as M / (d + 1) -- maybe the algorithm actually always
+            finds an independent set whose size is larger than this, but
+            showing that's the case is trickier.
+
+         Q: OK, so what's next?
+         A: The easiest thing to do at this point is to try and come up with
+            an example where the algorithm achieve ratio d + 1. If we can do
+            this, _then_ we're done. If we cannot, then it may give us some
+            insight into a better ratio that we can prove.
+
+         Q: Fine. So what's the example?
+         A: To be honest, I don't know! :)
+
+         Q: What if we can't find an example?
+         A: Then it might be that the bound we've proved is "loose": that
+            the algorithm actually always finds an independent set whose
+            size is closer to the maximum than a factor of 1/(d + 1)...
+
+         Q: How can we tell?
+         A: We can try to prove a better bound on the approximation ratio.
+            In this case, there is a simple argument we can use to show that
+            the ratio is actually a little bit smaller:
+
+            Let I the independent set returned by the greedy algorithm (of
+            size S) and I* be any optimal independent set (of size M).  For
+            each v in I, either v is also in I* or v must have one or more
+            neighbours in I* (otherwise, we could add v to I*, contradicting
+            that I* has maximum size).
+            In every case, I* contains _at most_ d other vertices for every
+            vertex in I, so M <= d S. This shows that the approximation
+            ratio for the greedy algorithm is at most d.
+
