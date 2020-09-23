@@ -1,0 +1,181 @@
+---
+title: "STA304_A2_Q3_sol"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# strata 1 (brand I)
+N1<-120
+tot_x1<-24500 
+mu_x1<-tot_x1/N1 
+x1<-c(204,143,82,256,275,198) 
+y1<-c(210,160,75,280,300,190) 
+n1<-length(y1)
+
+# strata 2 (brand II)
+N2<-180
+tot_x2<-21200
+mu_x2<-tot_x2/N2
+x2<-c(137,189,119,63,103,107,159,63,87)
+y2<-c(150,200,125,60,110,100,180,75,90)
+n2<-length(y2)
+
+#  basic statistics
+# Population size
+N<-N1+N2
+
+# Strata weights
+W1<-N1/N 
+W2<-N2/N
+
+# sampling fractions for each strata
+f1<-n1/N1 
+f2<-n2/N2
+
+# strata samples means for x and y
+y1bar<-mean(y1) 
+y2bar<-mean(y2)
+x1bar<-mean(x1) 
+x2bar<-mean(x2)
+
+# strata samples variances for x and y
+s2y1<-var(y1) 
+s2y2<-var(y2)
+s2x1<-var(x1) 
+s2x2<-var(x2)
+
+# strata samples cross products between x and y
+sx1y1<-sum( (x1-mean(x1))*(y1-mean(y1)) )/(n1-1) 
+sx2y2<-sum( (x2-mean(x2))*(y2-mean(y2)) )/(n2-1)
+
+# strata samples corelation coefficients between x and y
+cor1<-cor(y1,x1) 
+cor2<-cor(y2,x2)
+
+# some verifications:
+# r1 and sx1y1/(sqrt( s2x1*s2y1)) should be the same
+# r2 and sx2y2/(sqrt( s2x2*s2y2)) should be the same
+
+```
+
+```{r}
+# (Part 1)  Separate ratio estimation (sr)
+# (a) Basic method
+mu1hat<-mean(y1) 
+var_mu1hat<-(1-f1)*(s2y1/n1)
+
+mu2hat<-mean(y2) 
+var_mu2hat<-(1-f2)*(s2y2/n2)
+
+mu_b_hat_sr<-W1*mu1hat + W2*mu2hat
+var_mu_b_hat_sr<-W1^2*var_mu1hat+W2^2*var_mu2hat
+
+tau_b_hat_sr<-N*mu_b_hat_sr 
+var_tau_b_hat_sr<-N^2*var_mu_b_hat_sr
+
+```
+
+```{r}
+# b) Ratio
+r1<-y1bar/x1bar 
+r2<-y2bar/x2bar
+
+s2r1<-var(y1-r1*x1) 
+s2r2<-var(y2-r2*x2)
+
+mu1_r_hat<-r1*mu_x1 
+mu2_r_hat<-r2*mu_x2
+
+var_mu1_r_hat<-(1-f1)*(s2r1/n1) 
+var_mu2_r_hat<-(1-f2)*(s2r2/n2)
+
+tau1_r_hat<-N1*mu1_r_hat 
+tau2_r_hat<-N2*mu2_r_hat
+
+var_tau1_r_hat<-N1^2*var_mu1_r_hat 
+var_tau2_r_hat<-N2^2*var_mu2_r_hat
+
+mu_r_hat_sr<-W1*mu1_r_hat + W2*mu2_r_hat
+var_mu_r_hat_sr<-W1^2*var_mu1_r_hat + W2^2*var_mu2_r_hat
+
+tau_r_hat_sr<-N*mu_r_hat_sr 
+var_tau_r_hat_sr<-N^2*var_mu_r_hat_sr
+```
+
+```{r}
+# c) regression
+b1<-sx1y1/s2x1 
+b2<-sx2y2/s2x2
+
+a1<-y1bar - b1*x1bar 
+a2<-y2bar - b2*x2bar
+
+y1hat<-a1+b1*y1
+y2hat<-a2+b2*y2 
+
+e1<-y1-y1hat
+e2<-y2-y2hat 
+
+MSE1<-sum(e1^2)/(n1-2)
+MSE2<-sum(e2^2)/(n2-2) 
+
+mu1_L_hat<-y1bar + b1*(mu_x1-x1bar)
+mu2_L_hat<-y2bar + b2*(mu_x2-x2bar) 
+
+var_mu1_L_hat<-(1-f1)*(MSE1/n1)
+var_mu2_L_hat<-(1-f2)*(MSE2/n2) 
+
+tau1_L_hat<-N1*mu1_L_hat
+tau2_L_hat<-N2*mu2_L_hat 
+
+var_tau1_L_hat<-N1^2*var_mu1_L_hat
+var_tau2_L_hat<-N2^2*var_mu2_L_hat 
+
+mu_L_hat_sr<-W1*mu1_L_hat + W2*mu2_L_hat
+var_mu_L_hat_sr<-W1^2*var_mu1_L_hat + W2^2*var_mu2_L_hat
+
+tau_L_hat_sr<-W1*tau1_L_hat + W2*tau2_L_hat
+var_tau_L_hat_sr<-W1^2*var_tau1_L_hat + W2^2*var_tau2_L_hat
+
+```
+```{r}
+#  d) relative efficiency
+# (i)
+eff_r_to_b<-var_tau_b_hat_sr/var_tau_r_hat_sr 
+# (ii)
+eff_r_to_L<-var_tau_L_hat_sr/var_tau_r_hat_sr 
+# (iii)
+eff_L_to_b<-var_tau_b_hat_sr/var_tau_L_hat_sr
+
+```
+
+```{r}
+# (Part 2) composed ratio method
+# (a)
+mu_b_hat_cr<-W1*y1bar + W2*y2bar 
+var_mu_b_hat_cr<-W1^2*(1-f1)*(s2y1/n1) + W2^2*(1-f2)*(s2y2/n2)
+
+# (b)
+mu_x<-W1*mu_x1 + W2*mu_x2 
+
+muy_str_hat<-W1*y1bar + W2*y2bar 
+mux_str_hat<-W1*x1bar + W2*x2bar
+
+r_cr<-muy_str_hat/mux_str_hat 
+
+mu_r_hat_cr<-r_cr*(mu_x)
+
+
+s2cr1<-sum( (y1-r_cr*x1)^2 )/(n1-1) 
+s2cr2<-sum( (y2-r_cr*x2)^2 )/(n2-1)
+
+var_mu_r_hat_cr<-W1^2*(1-f1)*(s2cr1/n1) + W2^2*(1-f2)*(s2cr2/n2)
+
+# (c) relative efficiency RE
+RE_cr<-var_mu_b_hat_cr/var_mu_r_hat_cr
+```
+

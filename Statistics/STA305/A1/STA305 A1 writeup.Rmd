@@ -1,0 +1,81 @@
+---
+title: "STA305 A1"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Part A
+```{r}
+set.seed(6046)
+yS <- round(rnorm(8,mean = 5,sd = 2),3)
+yS
+```
+```{r}
+set.seed(6046)
+yT <- round(rnorm(8,mean = 7,sd = 2),3)
+yT
+```
+```{r}
+result = cbind(yS, yT)
+result
+```
+#Part B
+```{r}
+diff = mean(yT) - mean(yS)
+
+fert <- c(yT,yS); N <- choose(16,8)
+res <- numeric(N) # store the results
+index <-combn(1:16,8) #Generate N treatment assignments
+for (i in 1:N)
+{res[i] <- mean(fert[index[,i]])-mean(fert[-index[,i]])}
+```
+```{r}
+diff;N
+```
+```{r}
+pval <- sum(res>=diff) /N
+round(pval,3)
+```
+
+```{r}
+hist(res,xlab = "ybarT-ybarS", main="Randomization Distribution of difference in means")
+abline(h=0,v=2,col="blue")
+abline(h=0,v=-2,col="blue")
+```
+
+##i) 
+### The distribution above is pretty normal.
+### values this distribution contain: 12870
+### probability of the observed treatment allocation: 1 / 12870
+
+##ii)
+### p-value is 0.002 which means under the assumption that there is no difference between S and T only 0.2% of randomizations would produce an extreme or more extreme difference than the observed mean difference.Therefore, we reject the null hypothesis and accept the "significant results" that there is difference in means between two treatments.
+
+#Part C
+```{r}
+t.test(yS,yT,var.equal = FALSE,alternative = 'less')
+```
+```{r}
+qqnorm(yS,main = "Treatment S");qqline(yS)
+```
+
+```{r}
+qqnorm(yT,main = "Treatment T");qqline(yS)
+```
+
+##i)
+### P-value is 0.001864 which is quite small so that we can reject the null hypothesis $$\mu_{S} = \mu_{T}$$ Thus there is difference between the two treatements.
+##ii)
+### According to the 2 qq-plot, we know the normal assumption does not hold for treatement T.
+##iii) t-test agrees the result of randomization test because both P-values are almost identical and reject same null hypothesis.
+
+
+
+
+
+
+
+

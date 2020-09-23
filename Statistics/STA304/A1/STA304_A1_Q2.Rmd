@@ -1,0 +1,89 @@
+---
+title: "STA304_A1_Q2"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#(a)
+```{r}
+s <- c(1, 0, 0, 4, 1, 6, 6, 3, 5, 3, 1)
+hist(s)
+```
+
+#(b)
+```{r}
+u = mean(s)
+sigma_square = var(s)
+p = sum(s==1) / length(s)
+```
+##u
+```{r, echo=FALSE}
+u
+```
+##sigma_squre
+```{r, echo=FALSE}
+sigma_square
+```
+##p
+```{r, echo=FALSE}
+p
+```
+
+#(c)
+```{r}
+sample = sample(s,5,replace=TRUE)
+p_estimator = sum(sample==1) / length(sample)
+```
+
+##sample
+```{r, echo=FALSE}
+sample
+```
+## p estimate
+```{r, echo=FALSE}
+p_estimator
+```
+
+#(d)
+```{r}
+proportion_lst = c()
+i <- 1
+while (i < 1001) {
+one_sample = sample(s,5,replace=TRUE)
+new_p_estimator = sum(one_sample==1) / length(one_sample)
+proportion_lst <- c(proportion_lst, new_p_estimator)
+i = i+1
+}
+hist(proportion_lst)
+```
+
+#(e)
+```{r}
+sample = sample(s,5,replace=FALSE)
+p_estimator_without_replacement = sum(sample==1) / length(sample)
+sample
+```
+
+## p(the proporttion of 1's) without replacement
+```{r}
+p_estimator_without_replacement
+```
+
+#(f)
+```{r}
+proportion_lst = c()
+i <- 1
+while (i < 1001) {
+sample = sample(s,5,replace=FALSE)
+new_p_estimator = sum(sample==1) / length(sample)
+proportion_lst <- c(proportion_lst, new_p_estimator)
+i = i+1
+}
+hist(proportion_lst)
+```
+
+
+
