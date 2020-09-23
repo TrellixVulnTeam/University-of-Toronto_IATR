@@ -1,2 +1,2 @@
-## School course repository
+## School Course Repository
 
