@@ -16,7 +16,7 @@ CSC384 - Introduction to Artificial Intelligence\
 CSC411 - Introduction to Machine Learning\
 CSC412 - Probabilistic Learning and Reasoning\
 CSC413 - Neural Networks and Deep Learning\
-CSC420 - Introduction to Image Understanding\
+CSC420 - Introduction to Image Understanding
 
 ## Statistics
 STA255 - Statistical Theory\
@@ -24,7 +24,7 @@ STA302 - Methods of Data Analysis I\
 STA303 - Methods of Data Analysis II\
 STA304 - Surveys, Sampling and Observational Data\
 STA305 - Design and Analysis of Experiments\
-STA457 - Time Series Analysis\
+STA457 - Time Series Analysis
 
 ## Math, Philosophy, and Other
 MAT224 - Linear Algebra II\
