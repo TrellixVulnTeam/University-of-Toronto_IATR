@@ -33,4 +33,5 @@ PHL245 - Modern Symbolic Logic\
 ANT100 - Introduction to Antropology\
 CIN211 - Science Fiction Film\
 CDN230 - Asian Canadian History\
+HPS210 - Scientific Revolutions I
 
