@@ -1,7 +1,7 @@
 # School Course Repository
 
 ## CS
-CSC148 - Introduction to Computer Science
+CSC148 - Introduction to Computer Science\
 CSC207 - Software Design
 CSC209 - Software Tools and Systems Programming
 CSC236 - Introduction to the Theory of Computation
