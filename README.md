@@ -26,7 +26,7 @@ STA304 - Surveys, Sampling and Observational Data\
 STA305 - Design and Analysis of Experiments\
 STA457 - Time Series Analysis\
 
-## Others
+## Math, Philosophy, and Other
 MAT224 - Linear Algebra II\
 MAT235 - Calculus II\
 PHL245 - Modern Symbolic Logic\
