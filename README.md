@@ -1,5 +1,7 @@
 # School Course Repository
-HoHoHo, welcome to my school course repo. In University of Toronto, I pursued double major in Computer Science and Statistics. In details, my degree is built on one Computer Science Specialist program and One Statistics Major program.\
+HoHoHo, welcome to my school course repo.
+
+In University of Toronto, I pursued double major in Computer Science and Statistics. In details, my degree is built on one Computer Science Specialist program and One Statistics Major program.
 
 Note that, in my school UofT, The Specialist program type is the greatest concentration on one subject area. More than half of the credits taken (9-16) will be in this academic area. And Major program consists of around one third (6-9) of the total credits. More infomation on https://future.utoronto.ca/academics/build-your-own-degree
 
