@@ -1,5 +1,5 @@
 # CSC165 - Mathematical Expression and Reasoning for Computer Science
-Note that the files of CSC165 is missing now. I will push them to github after I find them.
+Note that the files of CSC165 are missing now. I will push them to github after I find them.
 
 ## Knowledge Domain
 Introduction to abstraction and rigour. Informal introduction to logical notation and reasoning. Understanding, using and developing precise expressions of mathematical ideas, including definitions and theorems. Structuring proofs to improve presentation and comprehension. General problem-solving techniques. Running time analysis of iterative programs. Formal definition of Big-O.
