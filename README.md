@@ -8,7 +8,7 @@ Note that, in my school UofT, the Specialist program type is the greatest concen
 ## Computer Science
 CSC108 - Introduction to Computer Programming\
 CSC148 - Introduction to Computer Science\
-CSC165 - Mathematical Expression and Reasoning for Computer Science
+CSC165 - Mathematical Expression and Reasoning for Computer Science\
 CSC207 - Software Design\
 CSC209 - Software Tools and Systems Programming\
 CSC236 - Introduction to the Theory of Computation\
