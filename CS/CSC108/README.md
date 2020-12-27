@@ -1,8 +1,8 @@
 # CSC108 - Introduction to Computer Programming
-Note that the files of CSC108 is missing now. I will push them to github after I find them.\
+Note that the files of CSC108 is missing now. I will push them to github after I find them.
 
 ## Knowledge Domain
-Programming in a language such as Python. Elementary data types, lists, maps. Program structure: control flow, functions, classes, objects, methods. Algorithms and problem solving. Searching, sorting, and complexity. Unit testing.\
+Programming in a language such as Python. Elementary data types, lists, maps. Program structure: control flow, functions, classes, objects, methods. Algorithms and problem solving. Searching, sorting, and complexity. Unit testing.
 
 ## Personal Summary
 CSC108 is the place in the world where I learn my mother programming language - python. 
