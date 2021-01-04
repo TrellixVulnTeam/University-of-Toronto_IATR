@@ -1,4 +1,5 @@
 # School Course Repository
+![Drag Racing](CS/CSC108/other/uoft_logo.png)
 HoHoHo, welcome to my school course repo.
 
 In University of Toronto, I pursued double major in Computer Science and Statistics. In details, my degree is built on Computer Science Specialist program and Statistics Major program.
