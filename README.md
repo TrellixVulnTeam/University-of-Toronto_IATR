@@ -1,5 +1,4 @@
-# School Course Repository 
-<img src="CS/CSC108/other/uoft_logo.png" alt="drawing" width="200"/>
+# School Course Repository <img src="CS/CSC108/other/uoft_logo.png" alt="drawing" width="200"/>
 
 HoHoHo, welcome to my school course repo.
 
