@@ -1,5 +1,5 @@
 # School Course Repository 
-![Drag Racing](CS/CSC108/other/uoft_logo.png)
+![Drag Racing](CS/CSC108/other/uoft_logo.png =250x)
 
 HoHoHo, welcome to my school course repo.
 
