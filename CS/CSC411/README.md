@@ -1,7 +1,7 @@
-# CSC263 - Data Structures and Analysis
+CSC411 - Introduction to Machine Learning
 
 ## Knowledge Domain
-Algorithm analysis: worst-case, average-case, and amortized complexity. Expected worst-case complexity, randomized quicksort and selection. Standard abstract data types, such as graphs, dictionaries, priority queues, and disjoint sets. A variety of data structures for implementing these abstract data types, such as balanced search trees, hashing, heaps, and disjoint forests.
+An introduction to methods for automated learning of relationships on the basis of empirical data. Classification and regression using nearest neighbour methods, decision trees, linear models, and neural networks. Clustering algorithms. Problems of overfitting and of assessing accuracy. Basics of reinforcement learning
 
 ## Personal Summary
-Worked so hard for this CSC263 but got the only B grade in Uoft since the arrival of Professor Faith Ellen(get the same final paper with CSC265 which is overwhelming). Hope this part of memory could become interesting one many years later - actually it is already :). 
+Took CSC411 in the PEY period. Still remember the scene I walked to my partner Wenjie's home to do the assignment after I get off work. The snow in North York is very big...unique study memory.
