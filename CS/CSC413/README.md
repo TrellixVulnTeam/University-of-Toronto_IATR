@@ -1,7 +1,4 @@
-# CSC263 - Data Structures and Analysis
+# CSC413 Neural Networks and Deep Learning
 
 ## Knowledge Domain
-Algorithm analysis: worst-case, average-case, and amortized complexity. Expected worst-case complexity, randomized quicksort and selection. Standard abstract data types, such as graphs, dictionaries, priority queues, and disjoint sets. A variety of data structures for implementing these abstract data types, such as balanced search trees, hashing, heaps, and disjoint forests.
-
-## Personal Summary
-Worked so hard for this CSC263 but got the only B grade in Uoft since the arrival of Professor Faith Ellen(get the same final paper with CSC265 which is overwhelming). Hope this part of memory could become interesting one many years later - actually it is already :). 
+An introduction to neural networks and deep learning. Backpropagation and automatic differentiation. Architectures: convolutional networks and recurrent neural networks. Methods for improving optimization and generalization. Neural networks for unsupervised and reinforcement learning. 
