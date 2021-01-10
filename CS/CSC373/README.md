@@ -1,7 +1,7 @@
-# CSC263 - Data Structures and Analysis
+CSC373 - Algorithm Design, Analysis & Complexity
 
 ## Knowledge Domain
-Algorithm analysis: worst-case, average-case, and amortized complexity. Expected worst-case complexity, randomized quicksort and selection. Standard abstract data types, such as graphs, dictionaries, priority queues, and disjoint sets. A variety of data structures for implementing these abstract data types, such as balanced search trees, hashing, heaps, and disjoint forests.
+Standard algorithm design techniques: divide-and-conquer, greedy strategies, dynamic programming, linear programming, randomization, network flows, approximation algorithms. Brief introduction to NP-completeness: polynomial time reductions, examples of various NP-complete problems, self-reducibility. Additional topics may include approximation and randomized algorithms. Students will be expected to show good design principles and adequate skills at reasoning about the correctness and complexity of algorithms.
 
 ## Personal Summary
-Worked so hard for this CSC263 but got the only B grade in Uoft since the arrival of Professor Faith Ellen(get the same final paper with CSC265 which is overwhelming). Hope this part of memory could become interesting one many years later - actually it is already :). 
+At the end of CSC373, get an exposure of P and NP question. Also, realize approximation is the most generalized approach to reality. A good course overall.
