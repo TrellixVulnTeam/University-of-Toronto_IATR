@@ -1,7 +1,5 @@
-# CSC263 - Data Structures and Analysis
+# CSC420 - Introduction to Image Understanding
 
 ## Knowledge Domain
-Algorithm analysis: worst-case, average-case, and amortized complexity. Expected worst-case complexity, randomized quicksort and selection. Standard abstract data types, such as graphs, dictionaries, priority queues, and disjoint sets. A variety of data structures for implementing these abstract data types, such as balanced search trees, hashing, heaps, and disjoint forests.
+Introduction to basic concepts in computer vision. Extraction of image features at multiple scales. Robust estimation of model parameters. Multiview geometry and reconstruction. Image motion estimation and tracking. Object recognition. Topics in scene understanding as time permits.
 
-## Personal Summary
-Worked so hard for this CSC263 but got the only B grade in Uoft since the arrival of Professor Faith Ellen(get the same final paper with CSC265 which is overwhelming). Hope this part of memory could become interesting one many years later - actually it is already :). 
