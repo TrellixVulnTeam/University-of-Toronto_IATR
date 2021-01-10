@@ -1,7 +1,7 @@
-# CSC263 - Data Structures and Analysis
+# CSC369 - Operating Systems
 
 ## Knowledge Domain
-Algorithm analysis: worst-case, average-case, and amortized complexity. Expected worst-case complexity, randomized quicksort and selection. Standard abstract data types, such as graphs, dictionaries, priority queues, and disjoint sets. A variety of data structures for implementing these abstract data types, such as balanced search trees, hashing, heaps, and disjoint forests.
+Principles of operating systems. The operating system as a control program and as a resource allocator. The concept of a process and concurrency problems: synchronization, mutual exclusion, deadlock. Additional topics include memory management, file systems, process scheduling, threads, and protection.
 
 ## Personal Summary
-Worked so hard for this CSC263 but got the only B grade in Uoft since the arrival of Professor Faith Ellen(get the same final paper with CSC265 which is overwhelming). Hope this part of memory could become interesting one many years later - actually it is already :). 
+Operating system - Notorious course in UofT! Took it once and dropped it and conquered it in the second try! Both the concept and assginment are very hardcore and time consuming. The best thing of this course is that, after completed it, I am confidence to say I know something about operating system and able to see what is going on from OS view! Cool!
