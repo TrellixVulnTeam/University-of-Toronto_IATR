@@ -1,7 +1,7 @@
-# STA255 - Statistical Theory
+# STA457 - Time Series Analysis
 
 ## Knowledge Domain
-This courses deals with the mathematical aspects of some of the topics discussed in STA220H1. Topics include discrete and continuous probability distributions, conditional probability, expectation, sampling distributions, estimation and testing, the linear model.
+This course provides an introduction to time series analysis with finance applications. The techniques learned in this course can also be applied to other disciplines. After finishing this course, students are expected to gain hands-on knowledge on how to analyze and model time series data. Topics in this course include fundamental concepts of time series, Box-Jenkins methods (ARIMA models), multivariate time series analysis (transfer function model, Vector autoregression, co-integration), and applications of machine learning techniques in time series analysis, such as bootstrapping, bagging and boosting for forecasting time series.
 
 ## Personal Summary
-God indeed plays dice sometimes.
+The worst course being tought in school. However the time series knowledge is important. Thus, yet another to learn by myself.
