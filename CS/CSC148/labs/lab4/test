@@ -1,0 +1,13 @@
+def mini_step(i, s):
+    m = []
+    if i == 1:
+        return 1
+    else:
+        k = 1
+        step = 2 * mini_step(i - 1, m) + 1
+        for j in range(1, i):
+            if 2 * mini_step(i - j, m) + 2 ** j - 1 < step:
+                step = 2 * mini_step(i - j, s) + 2 ** j - 1
+                k = j
+        s.append(k)
+    return step

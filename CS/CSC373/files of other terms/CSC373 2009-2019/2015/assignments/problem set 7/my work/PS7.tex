@@ -1,0 +1,99 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{clrscode3e}
+
+\setlength{\parskip}{2ex}
+\newcommand{\qedsymb}{\hfill{\rule{2mm}{2mm}}}
+\newenvironment{proof}{\vspace{-1mm}\begin{trivlist}
+}{\qedsymb\end{trivlist}\vspace{-1mm}}
+
+\begin{document}
+\begin{center}
+{\bf \Large \bf CSC373 Winter 2015 Problem Set \# 7}\\
+Name: Weidong An\\
+Student Number: 1000385095\\
+UTOR email: weidong.an@mail.utoronto.ca\\
+\today\\
+\end{center}
+\begin{enumerate}
+\item
+\begin{enumerate}
+\item
+Definition of problem $\overline{\const{Frugal}}$:
+\begin{enumerate}
+    \item[Input:]
+        A set of \emph{ingredients} $G = \{g_1,g_2,\dots,g_m\}$,
+        a set of \emph{recipes} $R = \{r_1,r_2,\dots,r_n\}$,
+        where each recipe is a subset of ingredients ($r_i \subseteq G$),
+        and a positive integer $M$.
+    \item[Output:]
+        Are all subsets of recipes $R' \subseteq R$
+        with size $|R'| \le M$ such that all together,
+        the recipes in $R'$ cannot use up exactly the ingredients from $G$
+        ($\bigcup_{r \in R'} r \neq G$ or
+        $r_1 \cap r_2 \neq \emptyset$ for some $r_1,r_2 \in R'$)?
+    \end{enumerate}
+\item
+Verifier for \const{Frugal}: $R'$ is a subset of $R$.
+\begin{codebox}
+\Procname{$\proc{Frugal-Verifier}(G, R')$}
+\li \If $|R'| > M$
+\li      \Then \Return \const{false}\End
+\li \For each $g\in G$
+\li     \Then \If $g\notin \bigcup_{r \in R'} r$
+\li             \Then \Return \const{false} \End\End
+\li \For each $r_1 \in R$
+\li     \Then \For each $r_2\in R$
+\li            \Then \If $r_1 \neq r_2$ and $r_1 \cap r_2 \neq \emptyset$
+\li                    \Then \Return \const{false}\End\End\End
+\li \Return \const{true}
+\end{codebox}
+
+{\bf Correctness}\\
+The if-statement in line 1 checks whether $|C| \leq M$. If not, $\const{false}$ is returned.\\
+The first for-loop checks whether $\bigcup_{r \in R'} r = G$ by check whether each element in $G$ is in $\bigcup_{r \in R'} r$. If one element in $G$ is not in $\bigcup_{r \in R'} r$, \const{false} is return. By the input of the problem $\bigcup_{r \in R'} r \subseteq G$. So $\bigcup_{r \in R'} r = G$ if the loop is not returned in the middle.\\
+The second for-loop checks whether any two sets in $R'$ are disjoint. If there are 2 sets that are not disjoint, \const{false} is returned. If this loop reaches the end, any two sets in $R'$ are disjoint.\\
+Hence, the algorithm return $\const{true}$ if and only if the three conditions above are satisfied.\\
+It is a verifier for $\const{Frugal}$ because $\proc{Frugal-Verifier}(G, R') = \const{true}$ for some $R'\subseteq R$ if and only if there is some subset of recipes $R' \subseteq R$
+        with size $|R'| \le M$ such that all together,
+        the recipes in $R'$ use up exactly the ingredients from $G$.
+
+{\bf Runtime}\\
+Let $|G| = m$ and $|R| = n$.
+The if-statement in line 1 takes $O(n)$ time to check.\\
+The first for-loop: It takes $O(mn)$ time to get the union in line 4. It takes $O(m)$ time to check whether $g\notin \bigcup_{r \in R'} r$ because $|g\notin \bigcup_{r \in R'} r| \leq m$. Totally, the first for loop runs in $mO(mn) = O(m^2n)$.\\
+The second for-loop: It takes $O(n^2)$ time to check the if-statement in line 8. So, totally the the second for-loop runs in $n^2 O(n^2) = O(n^4)$.\\
+Hence, the algorithm runs in $O(m^2n + n ^4)$ time in the worst case which is in polynomial time.
+
+
+\end{enumerate}
+\item
+\begin{enumerate}
+\item
+Definition of problem $\overline{\const{ShortPaths}}$:
+\begin{enumerate}
+    \item[Input:]
+        An undirected graph $G = (V,E)$ and
+        a positive integer $k$.
+    \item[Output:]
+        Is there a simple path in $G$ contain more than $k$ edges?
+\end{enumerate}
+\item
+Verifier for $\const{ShortPaths}$: $C$ is a simple path in $G$.
+\begin{codebox}
+\Procname{$\proc{ShortPaths-Verifier}(G, C)$}
+\li \If $|C| \leq k$
+\li     \Then \Return \const{true}\End
+\li \Return \const{false}
+
+\end{codebox}
+{\bf Correctness}\\
+Correctness is clear by the definition of the problem.\\
+It is a verifier for $\const{ShortPaths}$ because $\proc{ShortPaths-Verifier}(G, C) = \const{true}$ for every simple path $C$ if and only if every simple path in $G$ contain at most $k$ edges.\\
+{\bf Runtime}\\
+It takes $O(m)$ where $m = |E|$ to check the if-statement. So the algorithm runs in $O(m)$ which is in polynomial time.
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

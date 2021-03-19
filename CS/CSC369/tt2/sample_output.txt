@@ -1,0 +1,39 @@
+
+Note:
+	- visitors are not perfectly ordered
+	- There are always "tour_size" lines of "Visitor k ready for tour" before
+	  the next "Guide leading tour" message
+	- It is fine if visitor threads start terminating before the tours are finished.
+	- Guide is finished is the last message
+
+Sample output when running "./tour 3 12"
+
+Visitor 0 ready for tour
+Visitor 1 ready for tour
+Visitor 11 ready for tour
+Guide leading tour 0
+Visitor 5 ready for tour
+Visitor 10 ready for tour
+Visitor 3 ready for tour
+Guide leading tour 1
+Visitor 6 ready for tour
+Visitor 7 ready for tour
+Visitor 9 ready for tour
+Guide leading tour 2
+Visitor 2 ready for tour
+Visitor 4 ready for tour
+Visitor 8 ready for tour
+Visitor 0 left
+Visitor 1 left
+Guide leading tour 3
+Visitor 2 left
+Visitor 3 left
+Visitor 4 left
+Visitor 5 left
+Visitor 6 left
+Visitor 7 left
+Visitor 8 left
+Visitor 9 left
+Visitor 10 left
+Visitor 11 left
+Guide is finished

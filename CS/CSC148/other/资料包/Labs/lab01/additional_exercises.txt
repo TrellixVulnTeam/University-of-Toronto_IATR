@@ -1,0 +1,160 @@
+== Patient Roster ==
+
+Context: an appointment system for a doctor's office.
+
+A doctor has patients, each of whom has an OHIP number, 
+family name, first name and gender.  The doctor has a limit on the number
+of patients they can take.  The doctor may have a gender balance rule:
+a limit on the difference between the number of male and female patients
+they are willing to have.  When a patient asks to register with the
+doctor, they will be successful only if the doctor is not at his or her
+limit and the patient will not violate the doctor's gender balance rule.
+Sometimes patients move, change doctors, or die, and in those cases they
+need to be removed from the doctor's list.
+
+Design and implement a class for a patient roster.
+
+
+== Fraction ==
+
+Context: a calculator app
+
+We need to be able to multiply fractions, and the print them in
+their decimal form.  Fraction, of course have a numerator and a 
+denominator.  They need not be in their simplest form, for example, 
+we could have 8/2, or 6/8.
+
+Design and implement a class for a fraction.
+
+
+== RPN calculator ==
+
+Context: an RPN calculator app
+
+Reverse Polish Notation is a way of describing arithmetic expressions.
+Instead of putting the operator between its operands, we put it after 
+them.  For example, instead of 
+	22 + 7
+we write
+	22 7 +
+We can make longer expressions too, and the operator always applies
+to the last two values before it.  For example, consider:
+	3 22 7 + *
+The "+" is applied to 22 and 7, to yield 29.  So this is equivalent to:
+	3 29 *
+Now the "*" is applied to 3 and 29 to yield 87.  A side effect of this 
+notation is that we never require brackets!  We need an RPN calculator.
+The only things that will be entered into it are integers and operators
+from this list: + - * /.  It should always report the last value entered,
+or 0 if nothing has been entered yet.
+
+Design and implement a class for an RPN calculator.
+
+
+== Class List ==
+
+Context: a student records system like ROSI
+
+A course has students in it. Each student is identified by a unique 
+student number. There is a limit on how many students can register,
+but that limit can change.  Students are allowed to add and drop the
+course.
+
+Design and implement a class for a class list.
+
+
+== Player ==
+
+Context: an app for a game like 2048 or PacMan, where players get
+a score each time they play.
+
+A player has a name and a history of the last 100 scores they've
+achieved in the game.  We need to keep track of new scores they
+get so we can determine their top score and their average score
+on their most recent n games, where n is some positive whole number.
+
+Design and implement a class for a player.
+
+
+== Twitter Account ==
+
+Context: a social media site like Twitter
+
+A person with a Twitter account can "tweet": post a message for the
+world to see.  We want to be able to report a person's:
+- most recent n tweets
+- total number of tweets
+- number of tweets of length 0-50, 51-99, 99-140
+- list of tweets containing a given string
+
+Design and implement a class for a Twitter account holder.
+
+
+
+== Candyland Board ==
+
+Context: The Candyland board game
+
+Candyland is a very simple children's game for two players.
+The board has spaces from 0 to 100.  On their turn, a player
+advances a certain number of spaces.  The first player to reach
+spot 100 wins.  We need to keep track of
+where the players are so that we can report on the location
+of the two players whenever needed.  We also want to be able to
+find out who the winner is: either one of the players, both if it's
+a tie, or no one if the game isn't over yet.
+
+Design and implement a class for a candyland board.
+
+
+
+== Flight Roster ==
+
+Context: An airline reservation system
+
+Each seat has a unique name, like "17C" and is either in business 
+class or economy.  Passengers have booking IDs (a mix of letters and 
+numbers).  When they book a seat, they request their preferred class
+(business or economy) and are given any seat in that class. If the
+class is full, their booking is unsuccessful.  This airline gives
+passengers no choice about their specific seat.  We want to be able
+to report on how full a flight is: the percentage of seats that are
+booked in economy, in business class, and overall.
+
+Design and implement a class for a flight roster.
+
+
+
+== Inventory Item ==
+
+Context: an inventory system
+
+Items are for sale, each one at its own price.  Items are identified
+by their item number, and they also have a text description, such as
+"bath towel".  There are categories that items belong to, such as
+"housewares" and "books".  We need to be able to print a suitable
+price tag for an item (you can decide exactly the format).  Sometimes
+an item is discounted by a certain percentage.  We need to be able
+to compare two items to see which is cheaper.
+
+Design and implement a class for an inventory item.
+
+
+== Frequency Fingerprint ==
+
+Context: software for analyzing text, for example to identify the author
+
+We need software to determine the word "frequency fingerprint" of a piece of text:
+the number of occurences of every word in the text.  The software should get
+the text that is to be analysed from a file.  The software must be able to perform 
+the following operations:
+- Find the "top n" words, meaning the words with the n highest frequencies.  
+  There may be several words tied for the same frequency.  If that frequency is
+  one of the top n frequencies, all those tied words should be reported,
+  in alphabetical order.
+- Compare the fingerprint of one text to the fingerprint of another text, 
+  removing shared words from both. [This spec is unclear.]
+
+Design and implement a class for a frequency fingerprint.  There are two
+sample text files available for analysis on the course website: sample1.txt
+and sample2.txt.

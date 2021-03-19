@@ -1,0 +1,22 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumitem}
+
+\setlength{\parskip}{2ex}
+\newcommand{\qedsymb}{\hfill{\rule{2mm}{2mm}}}
+\newenvironment{proof}{\vspace{-1mm}\begin{trivlist}
+}{\qedsymb\end{trivlist}\vspace{-1mm}}
+
+\begin{document}
+\begin{center}
+{\bf \Large \bf CSC373 Winter 2015 Problem Set \# 6}\\
+Name: Weidong An\\
+Student Number: 1000385095\\
+UTOR email: weidong.an@mail.utoronto.ca\\
+\today\\
+\end{center}
+
+Variables:
+
+\end{document}

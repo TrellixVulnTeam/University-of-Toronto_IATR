@@ -1,0 +1,248 @@
+bplist00Ñ_WebMainResourceÕ	
+_WebResourceFrameName^WebResourceURL_WebResourceData_WebResourceMIMEType_WebResourceTextEncodingNameP_@http://www.cdf.toronto.edu/~csc148h/winter/Labs/lab08/bst_sol.pyO ø<html><head></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">class BTNode:
+    '''Binary Tree node.'''
+
+    def __init__(self: 'BTNode', data: object,
+                 left: 'BTNode'=None, right: 'BTNode'=None) -&gt; None:
+        '''Create BT node with data and children left and right.'''
+        self.data, self.left, self.right = data, left, right
+
+    def __repr__(self: 'BTNode') -&gt; str:
+        '''Represent this node as a string.'''
+        return 'BTNode({}, {}, {})'.format(repr(self.data),
+                                           repr(self.left),
+                                           repr(self.right))
+
+    def __str__(self: 'BTNode') -&gt; str:
+        '''Return a string representing self inorder'''
+        return _str(self, '')
+
+    def is_leaf(self: 'BTNode') -&gt; bool:
+        '''Is this node a leaf?'''
+        return node and not self.left and not self.right
+
+
+def _str(b: BTNode, i: str) -&gt; str:
+    '''Return a string representing self inorder,
+    indent by i'''
+    return ((_str(b.right, i + '    ') if b.right else '') +
+            i + str(b.data) + '\n' +
+            (_str(b.left, i + '    ') if b.left else ''))
+
+
+class BST:
+    '''Binary search tree.'''
+
+    def __init__(self: 'BST', root: BTNode=None) -&gt; None:
+        '''Create BST with BTNode root.'''
+        self._root = root
+
+    def __repr__(self: 'BST') -&gt; str:
+        '''Represent this binary search tree.'''
+        return 'BST({})'.format(repr(self._root))
+
+    def find(self: 'BST', data: object) -&gt; BTNode:
+        '''Return node containing data, otherwise return None.'''
+        return _find(self._root, data)
+
+    def insert(self: 'BST', data: object) -&gt; None:
+        '''Insert data, if necessary, into this tree.
+
+        &gt;&gt;&gt; b = BST()
+        &gt;&gt;&gt; b.insert(8)
+        &gt;&gt;&gt; b.insert(4)
+        &gt;&gt;&gt; b.insert(2)
+        &gt;&gt;&gt; b.insert(6)
+        &gt;&gt;&gt; b.insert(12)
+        &gt;&gt;&gt; b.insert(14)
+        &gt;&gt;&gt; b.insert(10)
+        &gt;&gt;&gt; b
+        BST(BTNode(8, BTNode(4, BTNode(2, None, None), BTNode(6, None, None)),\
+ BTNode(12, BTNode(10, None, None), BTNode(14, None, None))))
+    '''
+        self._root = _insert(self._root, data)
+
+    def delete(self: 'BST', data: object) -&gt; None:
+        '''Remove, if there, node containing data.
+
+        &gt;&gt;&gt; b = BST()
+        &gt;&gt;&gt; b.insert(8)
+        &gt;&gt;&gt; b.insert(4)
+        &gt;&gt;&gt; b.insert(2)
+        &gt;&gt;&gt; b.insert(6)
+        &gt;&gt;&gt; b.insert(12)
+        &gt;&gt;&gt; b.insert(14)
+        &gt;&gt;&gt; b.insert(10)
+        &gt;&gt;&gt; b.delete(12)
+        &gt;&gt;&gt; b
+        BST(BTNode(8, BTNode(4, BTNode(2, None, None), BTNode(6, None, None)),\
+ BTNode(10, None, BTNode(14, None, None))))
+        &gt;&gt;&gt; b.delete(14)
+        &gt;&gt;&gt; b
+        BST(BTNode(8, BTNode(4, BTNode(2, None, None), BTNode(6, None, None)),\
+ BTNode(10, None, None)))
+        '''
+        self._root = _delete(self._root, data)
+
+    def balanced_delete(self: 'BST', data: object) -&gt; None:
+        ''' (BTNode, object) -&gt; None
+
+        Remove, if there, node containing data.
+
+        # example not feasible, due to random choice
+        '''
+        import random
+        self._root = random.choice([_delete, _deleteR])(self._root, data)
+
+    def height(self: 'BST') -&gt; int:
+        '''Return height of this tree.'''
+        return _height(self._root)
+
+
+def _insert(node: BTNode, data: object) -&gt; BTNode:
+    '''Insert data in BST rooted at node, if necessary, and return root.'''
+    return_node = node
+    if not node:
+        return_node = BTNode(data)
+    elif data &lt; node.data:
+        node.left = _insert(node.left, data)
+    elif data &gt; node.data:
+        node.right = _insert(node.right, data)
+    else:  # nothing to do
+        pass
+    return return_node
+
+
+def _find(node: BTNode, data: object):
+    '''Return the node containing data, or else None.'''
+    if not node or node.data == data:
+        return node
+    else:
+        return (_find(node.left, data) if (data &lt; node.data)
+                else _find(node.right, data))
+
+
+def _delete(node: BTNode, data: object) -&gt; BTNode:
+    '''Delete, if exists, node with data and return resulting tree.'''
+    # Algorithm for _delete:
+    # 1. If this node is None, return that
+    # 2. If data is less than node.data, delete it from left child and
+    #     return this node
+    # 3. If data is more than node.data, delete it from right child
+    #     and return this node
+    # 4. If node with data has fewer than two children,
+    #     and you know one is None, return the other one
+    # 5. If node with data has two non-None children,
+    #     replace data with that of its largest child in the left subtree,
+    #     and delete that child, and return this node
+    return_node = node
+    if not node:
+        pass
+    elif data &lt; node.data:
+        node.left = _delete(node.left, data)
+    elif data &gt; node.data:
+        node.right = _delete(node.right, data)
+    elif not node.left:
+        return_node = node.right
+    elif not node.right:
+        return_node = node.left
+    else:
+        node.data = _find_max(node.left).data
+        node.left = _delete(node.left, node.data)
+    return return_node
+
+
+def _find_max(node: BTNode) -&gt; BTNode:
+    '''Find and return maximal node, assume node is not None'''
+    return _find_max(node.right) if node.right else node
+
+
+def _find_min(node):
+    ''' (BTNode) -&gt; BTNode
+    Find and return minimal node, assume node is not None
+    '''
+    return _find_min(node.left) if node.left else node
+
+
+def _deleteR(node: BTNode, data: object) -&gt; BTNode:
+    '''Delete, if exists, node with data and return resulting tree.'''
+    # Algorithm for _delete:
+    # 1. If this node is None, return that
+    # 2. If data is less than node.data, delete it from left child and
+    #     return this node
+    # 3. If data is more than node.data, delete it from right child
+    #     and return this node
+    # 4. If node with data has fewer than two children,
+    #     and you know one is None, return the other one
+    # 5. If node with data has two non-None children,
+    #     replace data with that of its smallest child in the right subtree,
+    #     and delete that child, and return this node
+    return_node = node
+    if not node:
+        pass
+    elif data &lt; node.data:
+        node.left = _delete(node.left, data)
+    elif data &gt; node.data:
+        node.right = _delete(node.right, data)
+    elif not node.left:
+        return_node = node.right
+    elif not node.right:
+        return_node = node.left
+    else:
+        node.data = _find_max(node.right).data
+        node.right = _deleteR(node.right, node.data)
+    return return_node
+
+
+def _height(node):
+    '''Return height of tree rooted at node.'''
+    return 1 + max(_height(node.left), _height(node.right)) if node else 0
+
+
+def contains(node, value):
+    ''' (BTNode, object) -&gt; value
+
+    Return whether tree rooted at node contains value.
+
+    &gt;&gt;&gt; contains(None, 5)
+    False
+    &gt;&gt;&gt; contains(BTNode(5, BTNode(7), BTNode(9)), 7)
+    True
+    '''
+    if node is None:
+        return False
+    else:
+        return (node.data == value or
+                contains(node.left, value) or
+                contains(node.right, value))
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+    number_list = list(range(500))
+    # add code here to build a BST containing
+    # the numbers from number_list
+    b = BST()
+    for n in number_list:
+        b.insert(n)
+    print('Height from number_list: {}'.format(b.height()))
+    # b has height 500, due to the
+    # numbers being ordered --- this makes
+    # BST operations very inefficient.
+    # Try changing the order:
+    b = BST()
+    import random
+    random.shuffle(number_list)
+    for n in number_list:
+        b.insert(n)
+    print('Height from shuffled number_list: {}'.format(b.height()))
+    with open('sample1.txt', 'r') as file_name:
+        word_list = file_name.read().split()
+    # add code here to build a BST containing
+    # the strings from word_list
+    b = BST()
+    for w in word_list:
+        b.insert(w)
+    print('Height from word_list: {}'.format(b.height()))
+</pre><embed id="xunlei_com_thunder_helper_plugin_d462f475-c18e-46be-bd10-327458d045bd" type="application/thunder_download_plugin" height="0" width="0"></body></html>]text/x-pythonUUTF-8    ( ? N ` v ” • Ø!Ô!â                           !è

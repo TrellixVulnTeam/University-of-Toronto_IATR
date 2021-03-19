@@ -1,0 +1,171 @@
+============================================================================
+CSC 373                Tutorial Solutions for Week 10              Fall 2014
+============================================================================
+
+Show that SAT is polytime self-reducible.
+
+ Q: What does this means exactly? What do we need to set up?
+ A: Need a precise description of SAT decision problem and SAT search
+    problem.
+
+    SAT decision -- from class:
+      . Input: A propositional formula F.
+      . Output: Is there is a satisfying assignment for F?
+
+ Q: SAT search ("SAT-S" for short) = ?
+ A:   . Input: A propositional formula F.
+      . Output: A satisfying assignment for F, if one exists -- the special
+        value NIL otherwise.
+
+ Q: What does self-reducibility mean again?
+ A: That any efficient algorithm for SAT can be used to write an efficient
+    algorithm for SAT-S.
+
+ Q: How do we prove this?
+ A: Suppose SD(F) is an algorithm that solves SAT, then write an algorithm
+    SS(F) that solves SAT-S by making calls to SD. Argue that SS is correct
+    and that the runtime of SS is polynomial as a function of the runtime of
+    SD.
+
+Let's try to come up with the ideas for algorithm SS, step-by-step, then
+we'll put it all together.
+
+ Q: What should SS(F) do first?
+ A: Check that F is satisfiable -- if not, return NIL immediately:
+
+        if not SD(F):  return NIL
+
+ Q: Next, SS must find a satisfying assignment. This is the part that
+    requires the most creativity, so let's think it through carefully. We
+    have at our disposal a tool that allows us to find out whether or not
+    any formula is satisfiable. But when it reports that a formula is
+    satisfiable, it does not directly give us any information about how to
+    set the variables to make this happen. Is there a way to get information
+    about the values of variables indirectly? Perhaps by asking about
+    different, related formulae?
+
+     Q: Hint: If F is satisfiable and x is any variable in F, we know that x
+        must be either True or False, and at least one of these choices will
+        satisfy F. Is there a way to find out?
+     A: If we set x = True inside F, and the resulting formula is still
+        satisfiable, then F is satisfiable by setting x = True; if F is no
+        longer satisfiable, then we must set x = False.
+
+     Q: But wait, what does it mean to "set x = True inside F"? We have to
+        make sure that the result is still a propositional formula, in order
+        to be able to call SD on the result.
+     A: Set x = True and simplify F, using propositional equivalences (e.g.,
+        (x /\ A) becomes A, (x \/ A) becomes "True", etc.) Do this
+        recursively until no further simplifications are possible, trying to
+        eliminate every instance of True or False, i.e., to be left with
+        only variables and connectives. The result is denoted F[x = True]
+
+        To make sure this is clear for everyone, here are some examples.
+        Let F = ~x3 /\ (x1 /\ x2 -> x3) /\ (x5 -> x4).
+
+          . F[x1 = True]
+              = ~x3 /\ (True /\ x2 -> x3) /\ (x5 -> x4)
+              = ~x3 /\ (x2 -> x3) /\ (x5 -> x4)
+            (because True /\ A = A)
+
+          . F[x3 = True]
+              = ~True /\ (x1 /\ x2 -> True) /\ (x5 -> x4)
+              = False /\ True /\ (x5 -> x4)
+              = False
+            (because A -> True = True, and False /\ A = A)
+
+     Q: What are the possible outcomes?
+     A: Either this will result in some propositional formula F' (like in
+        the first example), or it will result in True or False.
+
+     Q: What do we do in each case?
+     A:   . Result = True: F is satisfiable by setting x = True and all
+            remaining variables arbitrarily.
+          . Result = False: F is not satisfiable by setting x = True, so
+            set x = False.
+          . Result = F': Check if F' is satisfiable or not; if it is, set
+            x = True; otherwise, set x = False.
+
+Q:  Final algorithm?
+A:  SS(F):
+        if not SD(F):  return NIL
+        for each variable x in F:
+            F' = F[x = True]
+            if F' == True:
+                set all remaining variables in F (including x) to True
+                exit loop
+            if F' == False or not SD(F'):
+                set x = False
+                F = F[x = False]
+            else:  # F' != True and F' != False and SD(F')
+                set x = True
+                F = F'
+
+    NOTE: It's important to update F at each iteration, to get a complete
+    satisfying assignment of values to the variables of F. For example,
+    (x \/ y) /\ (~x \/ ~y) can be satisfied by setting x = True, and it can
+    also be satisfied by setting y = True, but not both at the same time!
+
+    Trace on example F = ~x3 /\ (x1 /\ x2 -> x3) /\ (x5 -> x4), if students
+    want to see it to better understand the algorithm:
+
+      . before main loop:
+        F = ~x3 /\ (x1 /\ x2 -> x3) /\ (x5 -> x4)
+        SD(F) = True
+
+      . first iteration:
+        F' = F[x1 = True]
+           = ~x3 /\ (x2 -> x3) /\ (x5 -> x4)
+        F' != True, F' != False so call SD(F') [returns True]
+        set x1 = True, F = F'
+
+      . second iteration:
+        F' = F[x2 = True]
+           = ~x3 /\ (True -> x3) /\ (x5 -> x4)
+           = ~x3 /\ x3 /\ (x5 -> x4)
+        F' != True, F' != False so call SD(F') [returns False]
+        set x2 = False,
+        F  = F[x2 = False]
+           = ~x3 /\ (False -> x3) /\ (x5 -> x4)
+           = ~x3 /\ True /\ (x5 -> x4)
+           = ~x3 /\ (x5 -> x4)
+
+      . third iteration:
+        F' = F[x3 = True]
+           = ~True /\ (x5 -> x4)
+           = False /\ (x5 -> x4)
+           = False
+        set x3 = False,
+        F  = F[x3 = False]
+           = ~False /\ (x5 -> x4)
+           = True /\ (x5 -> x4)
+           = x5 -> x4
+
+      . fourth iteration:
+        F' = F[x4 = True]
+           = x5 -> True
+           = True
+        set x4 = True and x5 = True and terminate
+
+    Final assignment:
+    x1 = True, x2 = False, x3 = False, x4 = True, x5 = True.
+
+ Q: Now that we have the algorithm, what's next?
+ A: Argue correctness and analyze runtime.
+
+ Q: Why is the algorithm correct?
+ A: "F is satisfiable" is a loop invariant:
+      . The first line ensures it's true at the start,
+      . If F is satisfiable, either F[x = True] or F[x = False] (or maybe
+        both) must be satisfiable. The algorithm picks the first one for
+        which this is the case (using calls to SD to check).
+
+ Q: What's the runtime?
+ A: The algorithm makes at most one call to SD for each variable in F, plus
+    the initial call. The time to simplify F[x = True] and, in the
+    worst-case, F[x = False] is polynomial (no more than quadratic in the
+    length of F). Hence, if T(n) represents the worst-case time of SD on
+    inputs of size n, the worst-case time of SS is
+        O(n^2 + n T(n))
+    and this is polynomial in n and T(n).
+

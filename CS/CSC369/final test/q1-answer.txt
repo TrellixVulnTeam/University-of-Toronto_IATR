@@ -1,0 +1,64 @@
+q1: Synchronization
+(The information you need for this question is in q1-question.pdf)
+
+[2 marks]
+a) Does VERSION 1 work correctly? Explain whether the three criteria are 
+satisfied, or identifying which criteria is not satisfied and giving an 
+example showing why it is not satisfied.
+
+ANSWER:
+This version doesn't work correctly. The third criteria is not satisfied. 
+The example is that assume there are 2 agents and 2 customers. 
+While the first agent is serving the the first customer (as the first customer calls find_agent),
+the semaphore lock goes to 0. Although the 2 nd agent is availiable, the 2 nd customer cannot get the counter. 
+
+
+
+
+[2 marks]
+b) Does VERSION 2 work correctly? Explain whether the three criteria are 
+satisfied, or identifying which criteria is not satisfied and giving an 
+example showing why it is not satisfied.
+
+ANSWER:
+It works correctly. The three criteria are all satisfied.
+Criteria 1) and 2) are satisfied because they are protected by the lock in the critical section.
+Whenever, it checks the available[i] or modified available[i] or modified num_people, they are all protected.
+A customer checks all agent (availability) while agent cannot modify his available status. So, if a agent is available, the 
+counter would be returned.
+
+
+[2 marks]
+c) Does VERSION 3 work correctly? Explain whether the three criteria are 
+satisfied, or identifying which criteria is not satisfied and giving an 
+example showing why it is not satisfied.
+
+ANSWER:
+It doesn't work correctly. The third criteria doesn't satisfy. The first two are satisfied.
+Assume there are 3 customers and 2 agents.
+agent 1 and 2 are serving customer 1 and 2.
+Customer 3 calls find_agent and when the first iteration of the inner for loop of find_agent is over, customer 3 feels that 
+Agent 1 is not available. But at this time, agent 1 finishes the serving and gets ready. However, the customer 3 will check for
+Agent 2's availability. Agent 2 is not ready, and agent 1 is ready now. But customer 3 feels that they are all unavailable.
+No counter is returned.  
+
+
+[1 mark]
+d) In which of the 3 versions could starvation occur? List all of the versions
+that could suffer from starvation, or write "None" if starvation is not possible
+in any of them.
+
+ANSWER:
+Version 2 and version 3. 
+
+[2 marks]
+e) Consider the lock placement in version 2 and version 3.  Assuming that 
+these two versions are either correct or could be tweaked to be made correct, 
+explain the tradeoffs between these two solutions.  What are the two key 
+factors that you would consider if you were asked to choose one of the two 
+approaches?
+
+ANSWER:
+I will consider how long it will take for ready function to finish after find_agent is called.
+I will consider how long a customer will hold a lock. I want the agent updates his available status as soon as possible. 
+If version 3 can be tweaked to be made correct, I'll choose it, as it will release lock quickly.

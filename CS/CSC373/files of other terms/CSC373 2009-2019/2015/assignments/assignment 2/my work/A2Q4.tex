@@ -1,0 +1,122 @@
+\documentclass[a4paper,twoside,10pt]{report}
+
+%% Language %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[USenglish]{babel} %francais, polish, spanish, ...
+\usepackage[T1]{fontenc}
+\usepackage[ansinew]{inputenc}
+
+
+\usepackage{lmodern} %Type1-font for non-english texts and characters
+\usepackage{mathtools}
+%% Packages for Graphics & Figures %%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx} %%For loading graphic files
+\usepackage{subfig} %%Subfigures inside a figure
+\usepackage{geometry}
+
+\usepackage{clrscode3e}
+
+%\usepackage{pst-all} %%PSTricks - not useable with pdfLaTeX
+
+%% Math Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+
+%% Page Margins etc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\textheight}{24cm}
+\setlength{\textwidth}{16cm}
+\setlength{\topmargin}{-1cm}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+
+%%%%%% Misc %%%%%%
+\newcommand{\blank}[1]{\hspace*{#1}\linebreak[0]}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\abs}[1]{\lvert#1\lvert}
+\newcommand{\marginline}{\noindent\makebox[\linewidth][r]{\rule{\textwidth}{1pt}}}
+\newcommand{\exer}[1]{\noindent{\Large\textsc{Question #1}} \\ \marginline}
+\newcommand{\exernoline}[1]{\textcolor{Dandelion}{\LARGE{Exercise #1}}}
+\newcommand{\note}[1]{\textcolor{OrangeRed}{\bf{#1}}} % errors and/or other things to consider 
+\newcommand{\lemma}[2]{\noindent \textit{\textbf{Lemma #1}}. #2}
+\renewcommand{\qedsymbol}{\blacklozenge}
+
+
+% New Environments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newsavebox{\selvestebox}
+\newenvironment{prob}
+  {\newcommand\colboxcolor{FFFFFF}%
+   \begin{lrbox}{\selvestebox}%
+   \begin{minipage}{\dimexpr\columnwidth-2\fboxsep\relax}}
+  {\end{minipage}\end{lrbox}%
+   \begin{center}
+   \colorbox[HTML]{\colboxcolor}{\usebox{\selvestebox}}
+   \end{center}}
+
+\newenvironment{proof*}{\begin{proof}[\textit{\textbf{Proof}}]}{\\ \end{proof}}
+\newenvironment{soln}{\begin{proof}[\textit{\textbf{Solution}}]}{\\ \end{proof}}
+
+\newenvironment{exercise}[1]{\exer{#1}}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \[\begin{tikzpicture}
+% \draw[step=0.5cm,color=gray] (-1.5,-1.5) grid (1, 1);
+% \begin{pgfonlayer}{myback}
+% \fhighlight{m-1-1}{m-3-3}
+% \fhighlight[green!30]{m-3-9}{m-5-13}
+% \end{pgfonlayer}
+% \end{tikzpicture}\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{exercise}{4}
+
+\begin{enumerate}
+\item[(a).]
+
+The procedure $\proc{PriceIsRightGreedy}$ employs a greedy strategy as an attempt to solve the problem. Since the input is sorted in non-increasing order, the next element of the sequence is greedily chosen as the first unseen element in the sequence $X$ that ``fits'' (so that the collective sum is at most $B$).
+
+\begin{codebox}
+\Procname{$\proc{PriceIsRightGreedy}(B, X = x_1,x_2,\ldots,x_n)$:}
+\li $S \gets \varnothing$ \Comment subsequence of elements in $X$ 
+\li $sumSoFar \gets 0$
+\li \For $i \gets 1 \To n$: \Do
+\li     \If $sumSoFar + x_i \leq B$: \Then
+\li         $S \gets S \cup \{x_i\}$
+\li         $sumSoFar \gets sumSoFar + x_i$
+        \End
+    \End
+\li \Return $S$
+
+\end{codebox}
+
+
+\item[(b).]
+\begin{soln}
+We now show that $\proc{PriceIsRightGreedy}$ has approximation ratio \emph{at most} 2. Specifically, let the sum of $S$ (that is, $\displaystyle \sum\limits_{x \in S} x$) as returned by the procedure above be denoted by $\lvert S\rvert$. Then, we want to show that,
+\[\displaystyle \frac{OPT}{\lvert S \rvert} \leq 2, \]
+where $OPT$ is the maximal possible subsequence sum satisfying the constraint of the problem. To see this, we consider two exhaustive cases.
+
+\textbf{Case 1:}  $x_1 \geq \frac{B}{2}$. Thus, here we know that $\frac{B}{2} \leq x_1 \leq B$, and so it is clear that the algorithm adds $x_1$ to $S$. Thus, $\lvert S \rvert \geq \frac{B}{2}$. Of course, we know that $OPT \leq B$, and so,
+\begin{align*}
+\frac{OPT}{|S|} &\leq \frac{B}{|S|} \\
+&\leq \frac{B}{\frac{B}{2}}\\ &= 2,
+\end{align*} as desired. \\
+\textbf{Case 2:} $x_1 < \frac{B}{2}$. Since the input sequence is non-increasing, we know that every subsequent element is also less than $\frac{B}{2}$. We either have that $\lvert S \rvert \geq \frac{B}{2}$ or  $\lvert S \rvert < \frac{B}{2}$. If $\lvert S \rvert \geq \frac{B}{2}$, then we are done by the argument in Case 1. So, suppose that $\lvert S \rvert < \frac{B}{2}$. Each element $x_i$ is less than $\frac{B}{2}$, and thus if it is left out of $S$, $\lvert S \rvert + x_i < B$ --- which shows that every $x_i$ must be chosen by the algorithm. Thus, the optimal algorithm must also choose every element in the input --- in other words, $OPT$ is the sum of all elements in the input, and so $OPT = \lvert S\rvert$. Thus, $\frac{OPT}{\lvert S \rvert} = 1 \leq 2$, and again we have the desired result. \\ \\
+Together, these cases encompass all possible scenarios, and thus we are done.
+\end{soln}
+
+
+\end{exercise}
+
+
+
+
+
+
+
+\end{document}

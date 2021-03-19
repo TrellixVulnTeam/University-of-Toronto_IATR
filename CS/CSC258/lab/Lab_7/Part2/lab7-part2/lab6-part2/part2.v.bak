@@ -1,0 +1,284 @@
+// Part 2 skeleton
+
+module part2
+	(
+		CLOCK_50,						//	On Board 50 MHz
+		// Your inputs and outputs here
+        KEY,
+        SW,
+		// The ports below are for the VGA output.  Do not change.
+		VGA_CLK,   						//	VGA Clock
+		VGA_HS,							//	VGA H_SYNC
+		VGA_VS,							//	VGA V_SYNC
+		VGA_BLANK_N,						//	VGA BLANK
+		VGA_SYNC_N,						//	VGA SYNC
+		VGA_R,   						//	VGA Red[9:0]
+		VGA_G,	 						//	VGA Green[9:0]
+		VGA_B   						//	VGA Blue[9:0]
+	);
+
+	input			CLOCK_50;				//	50 MHz
+	input   [9:0]   SW;
+	input   [3:0]   KEY;
+
+	// Declare your inputs and outputs here
+	// Do not change the following outputs
+	output			VGA_CLK;   				//	VGA Clock
+	output			VGA_HS;					//	VGA H_SYNC
+	output			VGA_VS;					//	VGA V_SYNC
+	output			VGA_BLANK_N;				//	VGA BLANK
+	output			VGA_SYNC_N;				//	VGA SYNC
+	output	[9:0]	VGA_R;   				//	VGA Red[9:0]
+	output	[9:0]	VGA_G;	 				//	VGA Green[9:0]
+	output	[9:0]	VGA_B;   				//	VGA Blue[9:0]
+	
+	wire resetn;
+	assign resetn = KEY[0];
+	
+	// Create the colour, x, y and writeEn wires that are inputs to the controller.
+	wire [2:0] colour;
+	wire [7:0] x;
+	wire [6:0] y;
+	wire writeEn;
+	wire ldX, ldY;
+	wire x_up, y_up, x_down, y_down;
+	
+	assign colour = SW[9:7];
+	assign x = {1'b0, SW[6:0]};
+	assign y = SW[6:0];
+
+	// Create an Instance of a VGA controller - there can be only one!
+	// Define the number of colours as well as the initial background
+	// image file (.MIF) for the controller.
+	vga_adapter VGA(
+			.resetn(resetn),
+			.clock(CLOCK_50),
+			.colour(colour),
+			.x(x),
+			.y(y),
+			.plot(writeEn),
+			/* Signals for the DAC to drive the monitor. */
+			.VGA_R(VGA_R),
+			.VGA_G(VGA_G),
+			.VGA_B(VGA_B),
+			.VGA_HS(VGA_HS),
+			.VGA_VS(VGA_VS),
+			.VGA_BLANK(VGA_BLANK_N),
+			.VGA_SYNC(VGA_SYNC_N),
+			.VGA_CLK(VGA_CLK));
+		defparam VGA.RESOLUTION = "160x120";
+		defparam VGA.MONOCHROME = "FALSE";
+		defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
+		defparam VGA.BACKGROUND_IMAGE = "black.mif";
+			
+	// Put your code here. Your code should produce signals x,y,colour and writeEn/plot
+	// for the VGA controller, in addition to any other functionality your design may require.
+    
+    // Instansiate datapath
+	datapath d0(
+			.clk(CLOCK_50),
+			.writeEn(writeEn),
+			.ldX(ldX),
+			.ldY(ldY),
+			.x_up(x_up),
+			.y_up(y_up),
+			.x_down(x_down),
+			.y_down(y_down),
+			.x_in(x),
+			.y_in(y),
+			.resetn(resetn),
+			.x_out(x),
+			.y_out(y));
+
+    // Instansiate FSM control
+   control c0(
+			.clk(CLOCK_50),
+			.go(KEY[3]),
+			.resetn(resetn),
+			.enable(KEY[1]),
+			.writeEn(writeEn),
+			.ldX(ldX),
+			.ldY(ldY),
+			.x_up(x_up),
+			.y_up(y_up));
+    
+endmodule
+
+module datapath(clk, ldX, ldY, x_up, y_up, x_down, y_down, x_in, y_in, resetn, x_out, y_out);
+	input clk;
+	input writeEn;
+	input ldX, ldY;
+	input x_up, y_up, x_down, y_down; // signal to increment x, y values
+	input [7:0] x_in;
+	input [6:0] y_in;
+	input resetn;
+	
+	output reg [7:0] x_out;
+	output reg [6:0] y_out;
+	
+	always@(posedge clk)
+	begin
+		if(!resetn)
+		begin
+			x_out <= 8'd0;
+			y_out <= 7'd0;
+		end
+		else if(ldX)
+			x_out <= {1'b0, x_in};
+		else if(ldY)
+			y_out <= y_in;
+		else
+		begin
+			if(x_up)
+				x_out <= x_in + 1'b1;
+			if(y_up)
+				y_out <= y_in + 1'b1;
+			if(x_down)
+				x_out <= x_in - 1'b1;
+			if(y_down)
+				y_out <= y_in - 1'b1;
+		end
+	end
+endmodule
+
+module control(clk, go, resetn, enable, writeEn, ldX, ldY, x_up, y_up, x_down, y_down);
+	input clk, go;
+	input resetn;
+	input enable;
+	output writeEn;
+	output reg ldX, ldY;
+	output reg x_up, y_up, x_down, y_down;
+	
+	reg [4:0] currenState, nextState;
+
+	localparam S_LOAD_X      = 5'd0,
+				  S_LOAD_X_WAIT = 5'd1,
+				  S_LOAD_Y      = 5'd2,
+				  S_LOAD_Y_WAIT = 5'd3,
+				  S_CYCLE_1     = 5'd4,
+				  S_cYCLE_2     = 5'd5,
+				  S_CYCLE_3     = 5'd6,
+				  S_CYCLE_4     = 5'd7,
+				  S_CYCLE_5     = 5'd8,
+				  S_CYCLE_6     = 5'd9,
+				  S_CYCLE_7     = 5'd10,
+				  S_CYCLE_8     = 5'd11,
+				  S_CYCLE_9     = 5'd12,
+				  S_CYCLE_10    = 5'd13,
+				  S_CYCLE_11    = 5'd14,
+				  S_CYCLE_12    = 5'd15,
+				  S_CYCLE_13    = 5'd16,
+				  S_CYCLE_14    = 5'd17,
+				  S_CYCLE_15    = 5'd18,
+				  S_CYCLE_16    = 5'd19;
+	always@(*)
+	begin: state_table
+		case(currentState)
+			S_LOAD_X: nextState = go ? S_LOAD_X_WAIT : S_LOAD_X;
+			S_LOAD_X_WAIT: nextState = go ? S_LOAD_X_WAIT : S_LOAD_Y;
+			S_LOAD_Y: nextState = go ? S_LOAD_Y_WAIT : S_LOAD_Y;
+			S_LOAD_Y_WAIT: nextState = go ? S_LOAD_Y_WAIT : S_CYCLE_1;
+			S_CYCLE_1: nextState = S_CYCLE_2;
+			S_CYCLE_2: nextState = S_CYCLE_3;
+			S_CYCLE_3: nextState = S_CYCLE_4;
+			S_CYCLE_4: nextState = S_CYCLE_5;
+			S_CYCLE_5: nextState = S_CYCLE_6;
+			S_CYCLE_6: nextState = S_CYCLE_7;
+			S_CYCLE_7: nextState = S_CYCLE_8;
+			S_CYCLE_8: nextState = S_CYCLE_9;
+			S_CYCLE_9: nextState = S_CYCLE_10;
+			S_CYCLE_10: nextState = S_CYCLE_11;
+			S_CYCLE_11: nextState = S_CYCLE_12;
+			S_CYCLE_12: nextState = S_CYCLE_13;
+			S_CYCLE_13: nextState = S_CYCLE_14;
+			S_CYCLE_14: nextState = S_CYCLE_15;
+			S_CYCLE_15: nextState = S_CYCLE_16;
+			S_CYCLE_16: nextState = S_LOAD_X;
+		endcase
+	end
+	
+	always@(*)
+	begin: enable_signals
+		writeEn = 1'b0;
+		ldX = 1'b0;
+		ldY = 1'b0;
+		x_up = 1'b0;
+		y_up = 1'b0;
+		x_down = 1'b0;
+		y_down = 1'b0;
+		
+		case(currentState)
+			S_LOAD_X: ldX = 1'b1;
+			S_LOAD_Y: ldY = 1'b1;
+			S_CYCLE_1: writeEn = 1'b1;
+			S_CYCLE_2: begin
+				x_up = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_3: begin
+				x_up = 1'b1;
+				writeEn = 1'b1  & enable;
+			end
+			S_CYCLE_4: begin
+				x_up = 1'b1;
+				writeEn = 1'b1  & enable;
+			end
+			S_CYCLE_5: begin
+				y_up = 1'b1;
+				writeEn = 1'b1  & enable;
+			end
+			S_CYCLE_6: begin
+				x_down = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_7: begin
+				x_down = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_8: begin
+				x_down = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_9: begin
+				y_up = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_10: begin
+				x_up = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_11: begin
+				x_up = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_12: begin
+				x_up = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_13: begin
+				y_up = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_14: begin
+				x_down = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_15: begin
+				x_down = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+			S_CYCLE_16: begin
+				x_down = 1'b1;
+				writeEn = 1'b1 & enable;
+			end
+		endcase
+	end
+	
+	always@(posedge clk)
+	begin: state_FFS
+		if(!resetn)
+			currentState <= S_LOAD_X;
+		else
+			currentState <= nextState;
+	end
+endmodule

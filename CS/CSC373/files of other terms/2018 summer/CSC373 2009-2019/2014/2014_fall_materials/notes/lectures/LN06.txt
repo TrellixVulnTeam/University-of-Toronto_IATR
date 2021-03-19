@@ -1,0 +1,171 @@
+==============================================================================
+CSC 373                  Lecture Summary for Week  6                 Fall 2014
+==============================================================================
+
+READINGS: Sections 29 (intro), 29.1, 29.2.
+SELF-TEST: Exercises 29.1-1, 29.2-2.
+
+Prof-in-a-Box on Oct 17.
+
+Applications of network flows:
+
+  - Maximum bipartite matching:
+    Input: An undirected bipartite graph G=(V_1,V_2,E) -- one where every edge
+        is between V_1 and V_2 (i.e., no edge has both endpoints in the same
+        "side").
+    Output: A disjoint subset of edges of maximum size (i.e., no edge in a
+        matching shares an endpoint with any other edge in the matching).
+
+    Given input graph, create network by turning every original edge into a
+    directed edge (from V_1 to V_2) with capacity 1; add source with edges of
+    capacity 1 to each vertex in V_1, sink with edges of capacity 1 from each
+    vertex in V_2.
+      . Any matching in graph yields flow in network: set flow = 1 for graph
+        edges in matching, 0 for graph edges not in matching; set flow = 1 for
+        new edges to/from matched vertices, 0 for new edges to/from unmatched
+        vertices.
+      . Any integer flow in network yields matching in graph: pick edges with
+        flow = 1 (leave out edges with flow = 0). No edge can have flow larger
+        than 1 because of capacities.
+    For this correspondence, size of matching = value of flow. Hence, any max
+    flow in network yields a maximum matching in graph (because a larger
+    matching would give a larger flow).
+
+------------------
+Linear Programming
+------------------
+
+Political Advertising problem:
+
+  - Four different platforms: building roads, gun control, farm subsidies,
+    gasoline tax. Three types of ridings: urban, suburban, and rural. Assume
+    that advertising can only be done "globally": all advertising is seen in
+    all three types of ridings.
+
+  - Market research: for each advertising platform and riding type, number of
+    voters gained or lost in ridings of that type, for each dollar of
+    advertising spent on that platform.
+
+              | urb.  sub.  rur.
+        ------+------------------
+        roads |  -2     5     3
+        guns  |   8     2    -5
+        farm  |   0     0    10
+        gas   |  10     0    -2
+
+  - Leaders aim to gain at least 50,000 urban voters, 100,000 suburban voters,
+    and 25,000 rural voters.
+
+  - Your task: spend as little as possible on advertising to gain the required
+    number of votes in each type of riding.
+
+  - Here is one way to represent the problem.
+
+    What are we looking for exactly? Amount to advertise on each platform. So
+    introduce variables:
+
+        x1 = $1000's to advertise on building roads
+        x2 = $1000's to advertise on gun controls
+        x3 = $1000's to advertise on farm subsidies
+        x4 = $1000's to advertise on gasoline tax
+
+    What's our goal? Spend as little as possible, in other words, minimize
+    x1 + x2 + x3 + x4.
+
+    What are our constraints? The need to gain some number of voters in each
+    riding type, which can be expressed by linear inequalities:
+
+        -2 x1 + 8 x2 +  0 x3 + 10 x4 >= 50     (for urban ridings)
+         5 x1 + 2 x2 +  0 x3 +  0 x4 >= 100    (for suburban ridings)
+         3 x1 - 5 x2 + 10 x3  - 2 x4 >= 25     (for rural ridings)
+
+    Anything else? Numerically, we cannot spend negative amounts, so
+
+        x1 >= 0, x2 >= 0, x3 >= 0, x4 >= 0.
+
+    This is known as a "linear program".
+
+In general, linear program = optimization problem that consists of:
+
+  - variables: x_1, x_2, ..., x_n (real numbers)
+
+  - "objective function": c_1 x_1 + c_2 x_2 + ... + c_n x_n
+    where c_i are real number constants
+
+  - "constraints": linear, i.e., of the form
+        a_{i,1} x_1 + a_{i,2} x_2 + ... + a_{i,n} x_n  <= / = / >=  b_i
+    for i = 1, 2, ..., m. Often written A x <= / = / >= b for matrix A,
+    vector of variables x and vector of constants b.
+    Example for political advertising (including non-negativity):
+
+        ( -2   8   0  10 )  ( x1 )      (  50 )
+        (  5   2   0   0 )  ( x2 )      ( 100 )
+        (  3  -5  10  -2 )  ( x3 )      (  25 )
+        (  1   0   0   0 )  ( x4 )  >=  (   0 )
+        (  0   1   0   0 )              (   0 )
+        (  0   0   1   0 )              (   0 )
+        (  0   0   0   1 )              (   0 )
+
+  - problem: find real values of x_i's that maximize/minimize objective
+    function and satisfy all constraints.
+
+  - "Integer programming": more restricted version where all constants and
+    variables are integers. NP-hard (no efficient algorithm).
+
+Solving linear programs:
+
+  - "Feasible region" = set of values of variables that satisfy all
+    constraints. Feasible region can be:
+
+      . Empty, e.g., constraints x_1 + x_2 <= -1 and 2 x_1 + 2 x_2 >= 5; no
+        solution to linear program in this case.
+
+      . Unbounded, e.g., constraints x_1 >= 0, x_2 >= 0, x_1 + x_2 >= 10; no
+        solution to linear program in this case (value of objective function
+        can be arbitrarily large so there is no maximum) -- if objective
+        function is minimization, then treat this as bounded.
+
+      . Bounded, e.g., constraints x_1 >= 0, x_2 >= 0, x_1 + x_2 <= 10; either
+        one or infinitely many solutions to linear program in this case,
+        depending on objective function, e.g., with same constraints, unique
+        solution to maximize objective function 2 x_1 - x_2 (x_1 = 10,
+        x_2 = 0) but infinitely many solutions to maximize objective function
+        x_1 + x_2 (any two nonnegative values that add up to 10).
+
+  - Simplex method solves linear programs by, intuitively, moving from vertex
+    to vertex along the boundary of the feasible region, using algebraic
+    manipulations similar to Gaussian elimination. It runs in worst-case
+    exponential time but in practice, this behaviour is very rarely
+    encountered (most of the time it is quite efficient).
+
+  - "Interior point" methods solve linear programs in worst-case polynomial
+    time but are just recently starting to be competitive with Simplex in
+    practice.
+
+Examples:
+
+  - Network flows: Given network N=(V,E) with capacities c(e) for e in E,
+    construct linear program with variables f_e (one for each e in E):
+        maximize:  \sum_{(s,u) in E} f_(s,u)
+        subject to:
+            f_e >= 0     for all e in E
+            f_e <= c(e)  for all e in E
+            \sum_{(u,v) in E} f_(u,v) - \sum_{(v,u) in E} f_(v,u) = 0
+                for all v in V
+    Direct re-statement of network flow problem: all valid flows in N yield
+    values for f_e that satisfy all constraints ("feasible" values), and all
+    feasible values for f_e are valid flow in N. So finding max flow in N
+    equivalent to maximizing objective function.
+
+    Might this allow us to solve max flow problem more easily or faster?
+    Unfortunately not: solving LP no more efficient than solving max flow (not
+    surprisingly since problem is "more general"). One more catch: LP solution
+    cannot guarantee integer flow on all edges (even when all edge capacities
+    are integer) -- in contrast with Ford-Fulkerson algorithm that guarantees
+    integer flows in that case.
+
+  - Shortest s-t path: Given graph G = (V,E) with weights w(e) for all e in E,
+    construct linear program with variables d_v for each v in V:
+
+    Constraints? Objective function? Think about it... (Answers next week!)
+

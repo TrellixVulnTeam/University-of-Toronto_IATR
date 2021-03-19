@@ -1,0 +1,60 @@
+==============================================================================
+CSC 373                 Tutorial Solutions for Week  2               Fall 2014
+==============================================================================
+
+
+ 1. (a) FALSE. Take G = triangle with all edge weights 1. For any edge e, some
+        MST of G does not contain e.
+
+    (b) TRUE.
+        Hint 1: Try a proof by contradiction.
+        Hint 2: Review the "exchange lemma" in the proof of correctness of
+        Kruskal's algorithm given in class -- you can use some of the same
+        ideas.
+
+        Let e = (a,b).
+        Suppose T is a MST that does _not_ contain e.
+        T contains a path from a to b so T u {e} has a cycle C.
+        For all e' != e in C, w(e) < w(e'). Pick one such edge e'.
+        T' = T u {e} - {e'} is a spanning tree and w(T') < w(T).
+        So T is not a MST -- contradiction!
+
+   *(c) [No sample solution for "starred" problems!
+        Post on Piazza for discussion, if you're interested.]
+
+
+ 2. (a) Hint 1: Try to use same proof structure as before.
+        Hint 2: Beware! You need to define "promising" and "extends" carefully
+        to work with the algorithm!
+        Hint 3: Exchange lemma will be different from the one in class. In
+        class, started with adding the edge we want to a MST and showing some
+        other edge can be taken out -- here, have to make a change to match
+        with algorithm.
+
+        Def: MST T* "extends" T_i iff T* (_ T_i (_ T* u {e_{i+1},...,e_m}.
+        Def: T_i "promising" iff some T*_i extends T_i.
+        Proof: T_i promising for all i.
+        BC: T* (_ T_0 (_ T* u {e_1,...,d_m} for all MSTs T*
+        I.H.: For some i >= 0, suppose T*_i extends T_i.
+        I.S.: Either T_{i+1} = T_i or T_{i+1} = T_i - {e_{i+1}}.
+          - Case 1: T_{i+1} = T_i when T_i - {e_{i+1}} is disconnected, so
+            e_{i+1} must belong to T*_i, i.e., T*_i extends T_{i+1}.
+          - Case 2: T_{i+1} = T_i - {e_{i+1}}. Either e_{i+1} in T*_i or
+            e_{i+1} not in T*_i.
+              . Subcase A: e_{i+1} not in T*_i implies T*_i extends T_{i+1} --
+                T*_i (_ T_{i+1} and T_{i+1} (_ T*_i u {e_{i+2},...,e_m}.
+              . Subcase B: e_{i+1} in T*_i.
+                Consider T*_i - {e_{i+1}}. Disconnects endpoints of e_{i+1}
+                into two components A, B (subsets of vertices).
+                But endpoints of e_{i+1} still connected in T_{i+1}: some edge
+                e_j in T_{i+1} crosses between A, B.
+                Because T_i (_ T*_i u {e_{i+1},...,e_m}, must have j > i+1.
+                Then, w(e_j) <= w(e_{i+1}).
+                Let T*_{i+1} = T*_i - {e_{i+1}} u {e_j}.
+                Then w(T*_{i+1}) <= w(T*_i) so T*_{i+1} is a MST and extends
+                T_{i+1}.
+        So every T_i promising => T_m promising => T_m = T*_m is a MST.
+
+   *(b) [No sample solution for "starred" problems!
+        Post on Piazza for discussion, if you're interested.]
+

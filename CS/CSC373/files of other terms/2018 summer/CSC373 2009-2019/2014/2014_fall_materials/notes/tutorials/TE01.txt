@@ -1,0 +1,45 @@
+==============================================================================
+CSC 373                 Tutorial Exercises for Week  1               Fall 2014
+==============================================================================
+
+
+ 1. Consider the problem of making change: assume you have an unlimited supply
+    of 1c, 5c, 10c and 25c coins, and an amount of money A that you want to
+    make change for. The problem is to come up with a number of coins that
+    adds up to exactly Ac while using as few coins as possible. For example,
+    if you want to make change for 15c, you would clearly use one dime (10c)
+    and one nickel (5c) instead of using 15 pennies (1c)!
+
+    Write a greedy algorithm that attempts to solve this problem, then write a
+    complete proof that your algorithm is correct.
+    Hint: Think of your algorithm as generating a solution one coin at a time.
+    For example, if you're trying to make change for 85c, instead of thinking
+    "the algorithm starts by using three quarters (25c), then ...", think "the
+    algorithm starts by using one quarter, then for what remains it will use
+    another quarter, ..."
+    (The idea is not that complicated but it involves a number of cases.)
+
+
+ 2. Does your algorithm always work even if the coin values change? In other
+    words, if you're given an arbitrary list of coin values (called
+    "denominations") d[0] < d[1] < ... < d[k], with d[0] = 1, does your
+    algorithm always make change using the smallest number of coins?
+    (For example, the Canadian coins are represented by d = [1, 5, 10, 25].)
+    Either provide a single counter-example and explain why it is a
+    counter-example, or explain how to modify your proof above so that it
+    applies in the general case.
+
+
+*3. If the algorithm fails in general, what can you say about the cases when
+    it works? Try to state the most general property possible that guarantees
+    that the algorithm will produce an optimal solution, and if you can, give
+    a rigorous argument that you are correct.
+    [This is a "starred" problem: we don't expect you to be able to solve it
+    as part of the course, but it's a nice extension of what you've been
+    working on during this tutorial, in case you finish early and want to
+    explore this problem further.
+    WARNING! Don't spend any time on this until you have *completely* finished
+    the other problems! It would be a shame if you failed to learn some
+    important aspect of the material -- and maybe even lose marks because of
+    it -- simply because you got distracted by a supplementary problem.]
+

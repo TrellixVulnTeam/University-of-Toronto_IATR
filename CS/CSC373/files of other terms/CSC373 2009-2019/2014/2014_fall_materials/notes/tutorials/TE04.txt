@@ -1,0 +1,18 @@
+==============================================================================
+CSC 373                 Tutorial Exercises for Week  4               Fall 2014
+==============================================================================
+
+Use dynamic programming to solve the all-pairs shortest paths problem, based
+on the idea of restricting path length.
+
+More precisely, to get you started, consider a shortest (minimum-weight) path
+from u to v; if the path contains more than one edge, then think about the
+sub-path from u to the last vertex before v. This defines a certain recursive
+structure on the problem: use this idea to carry out the other steps in a
+dynamic programming solution (define an array, give a recurrence relation for
+the array values, write an iterative algorithm to compute the array values
+bottom-up, use the computed array values to reconstruct an optimum solution --
+defining additional array values if necessary).
+
+How does your algorithm compare with the one presented in lecture?
+

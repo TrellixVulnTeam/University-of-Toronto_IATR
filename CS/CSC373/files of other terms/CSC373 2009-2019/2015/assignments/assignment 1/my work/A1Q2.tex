@@ -1,0 +1,192 @@
+\documentclass[a4paper,twoside,10pt]{report}
+
+%% Language %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[USenglish]{babel} %francais, polish, spanish, ...
+\usepackage[T1]{fontenc}
+\usepackage[ansinew]{inputenc}
+
+
+\usepackage{lmodern} %Type1-font for non-english texts and characters
+\usepackage{mathtools}
+%% Packages for Graphics & Figures %%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx} %%For loading graphic files
+\usepackage{subfig} %%Subfigures inside a figure
+\usepackage{geometry}
+
+\usepackage{clrscode3e}
+
+%\usepackage{pst-all} %%PSTricks - not useable with pdfLaTeX
+
+%% Math Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+
+%% Page Margins etc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\textheight}{24cm}
+\setlength{\textwidth}{16cm}
+\setlength{\topmargin}{-1cm}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+
+%%%%%% Misc %%%%%%
+\newcommand{\blank}[1]{\hspace*{#1}\linebreak[0]}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\abs}[1]{\lvert#1\lvert}
+\newcommand{\marginline}{\noindent\makebox[\linewidth][r]{\rule{\textwidth}{1pt}}}
+\newcommand{\exer}[1]{\noindent{\Large\textsc{Question #1}} \\ \marginline}
+\newcommand{\exernoline}[1]{\textcolor{Dandelion}{\LARGE{Exercise #1}}}
+\newcommand{\note}[1]{\textcolor{OrangeRed}{\bf{#1}}} % errors and/or other things to consider 
+\newcommand{\lemma}[2]{\noindent \textit{\textbf{Lemma #1}}. #2}
+\renewcommand{\qedsymbol}{\blacklozenge}
+
+
+% New Environments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newsavebox{\selvestebox}
+\newenvironment{prob}
+  {\newcommand\colboxcolor{FFFFFF}%
+   \begin{lrbox}{\selvestebox}%
+   \begin{minipage}{\dimexpr\columnwidth-2\fboxsep\relax}}
+  {\end{minipage}\end{lrbox}%
+   \begin{center}
+   \colorbox[HTML]{\colboxcolor}{\usebox{\selvestebox}}
+   \end{center}}
+
+\newenvironment{proof*}{\begin{proof}[\textit{\textbf{Proof}}]}{\\ \end{proof}}
+\newenvironment{soln}{\begin{proof}[\textit{\textbf{Solution}}]}{\\ \end{proof}}
+
+\newenvironment{exercise}[1]{\exer{#1}}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \[\begin{tikzpicture}
+% \draw[step=0.5cm,color=gray] (-1.5,-1.5) grid (1, 1);
+% \begin{pgfonlayer}{myback}
+% \fhighlight{m-1-1}{m-3-3}
+% \fhighlight[green!30]{m-3-9}{m-5-13}
+% \end{pgfonlayer}
+% \end{tikzpicture}\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\input{./title.tex}
+\begin{exercise}{2}
+
+\begin{soln} 
+\textbf{Step 0}: Recursive substructure. In order to find the optimum path, we must find the maximum potential amount of gold we can get from drilling to each block. In order to do this for a given block $(i, j)$, we need to look at the potential amount of gold we get for the 3 blocks above it from which we can then drill down to $(i, j)$. The base case is the surface layer, where the potential amount of gold is just the amount of gold in the block if the hardness of the block is at most $d$, and 0 otherwise.
+
+\noindent\textbf{Step 1}: Array definition. \\
+
+For ease of notation, we define two $m \times n$ arrays $A$ and $D$, so that $A[i, j]$ is the maximum amount of gold obtainable at location $(i, j)$ in the mine, while $D[i, j]$ represents the amount of hardness of the drill remaining at position $(i, j)$ by following the same path. If the remaining drill hardness is not enough to harness position $(i, j)$ of the mine, we set $A[i, j] = D[i, j] = -\infty$. Notice that at the first row ($i = 1$), the remaining drill hardness is just the original drill hardness $d$.\\
+
+\noindent\textbf{Step 2}: Array recurrence.
+\[
+ D[1, j] =
+  \begin{cases}
+   d - H[1, j], & \text{if } H[1, j] \leq d\\
+   -\infty, & \text{otherwise.}\\
+  \end{cases}
+\]
+\[
+ A[1, j] = 
+  \begin{cases}
+   G[1, j], & \text{if } H[i, j] \leq d\\
+   - \infty, & \text{otherwise.} 
+  \end{cases}
+\] \\
+For $i > 1$ and $1 \leq j \leq n$, define $X$ as the set of \emph{indices} such that $x \in X$ means $j - 1 \leq x \leq j + 1$ (it's a valid previous ``$x$'' co-ordinate) and $H[i, j] \leq D[i-1, x]$ (enough drill-hardness remained at that slot to mine the current square). If $X = \varnothing$, we define $D[i, j] = A[i, j] = -\infty$. Otherwise, set $y$ as, \[\underset{x\in X}{\operatorname{argmax}}\ A[i - 1, x],\] i.e. $y$ is the ``$x$'' co-ordinate of the previous valid square at which we had the most gold.
+Then we define $D[i, j]$ as,
+\[
+ D[i, j] =
+   D[i - 1, y] - H[i, j].
+\]
+Similarly, we define $A[i, j]$ as,
+\[
+ A[i, j] =
+   A[i - 1, y] + G[i, j].
+\] 
+
+\noindent\textbf{Step 3}: Iterative algorithm. This populates $A, D$ (and $S$ so we can reconstruct the optimum solution).
+% still in progress
+\begin{codebox}
+\Procname{$\proc{Optimum-Gold}(G, H, d)$:}
+\li let $A[1 \twodots m, 1 \twodots n]$ and $D[1 \twodots m, 1 \twodots n]$ be new $m \times n$ matrices. \Comment the arrays defined above.
+\li let $S[1\twodots m, 1\twodots n]$ be a new $m \times n$ matrix \Comment stores how we got to $(i, j)$
+\li \For $i \gets 1 \To m$: \Do
+\li     \For $j \gets 1 \To n$: \Do
+\li         $A[i, j] \gets -\infty$
+\li         $D[i, j] \gets -\infty$ 
+\li         \If $i \isequal 1$: \Then
+\li             \If $H[i, j] \leq d$: \Comment sufficient drill hardness\Then
+\li                 $A[i, j] \gets G[i, j]$
+\li                 $D[i, j] \gets d - H[i, j]$
+\li                 $S[i, j] \gets j$
+                
+
+            \End
+\li         \Else:
+\li             $best \gets -\infty$
+\li             \For $x \gets j - 1\To j + 1$: \Comment possible parent slots\Do 
+\li                 \If $1 \leq x \leq n$ \textbf{and} $A[i - 1, x] \geq best$ \textbf{and} $H[i, j] \leq D[i-1, x]$: \Comment we can mine $(i, j)$\Then
+\li                     $best \gets A[i - 1, x]$
+\li              
+$A[i, j] \gets A[i - 1, x] + G[i, j]$
+\li             $D[i, j] \gets D[i - 1, x] - H[i, j]$
+\li             $S[i, j] \gets x$
+                    \End
+                \End
+
+            \End
+
+        \End
+    \End
+            
+\li \Return $(A, S)$
+
+\end{codebox}
+\newpage
+\noindent\textbf{Step 4}: Reconstructing the optimum solution. \\
+
+To reconstruct an optimum solution, we simply need to first find the slot of the mine that yields the most total gold (while using at most the original drill hardness $d$). The maximum amount of gold is easily found, since we simply have to scan $A$ for its largest value, and this also gives us the corresponding position $(i, j)$ -- the last element of the optimum path. Once we have found this position, we simply use $S$ to go backwards (up the mine) and find the previous element of the path, until we reach the top of the mine, and this gives us the desired optimum path. The procedure $\proc{Reconstruct-Optimum-Path}(A, S)$ implements precisely this idea.
+
+\begin{codebox}
+\Procname{$\proc{Reconstruct-Optimum-Path}(A, S)$:}
+\li $k \gets 0$ \Comment length of the optimum path
+\li $maxGold \gets 0$
+\li $j' \gets 0$
+\li \For $i \gets 1 \To m$: \Do
+\li     \For $j \gets 1 \To n$: \Do
+\li         \If $A[i, j] > maxGold$: \Then
+\li             $maxGold \gets A[i, j]$ 
+\li             $k \gets i$
+\li             $j' \gets j$
+            \End
+        \End
+    \End
+\li let $J$ be a new $k$ element array \Comment the entire $k$-element path
+\li \For $i \gets k$ to $1$: \Comment populating $J$ backwards \Do
+\li     $J[i] \gets j'$
+\li     $j' \gets S[i, j']$ \Comment the previous element of the path
+    \End
+            
+\li \Return $J$
+
+\end{codebox}
+
+
+
+\end{soln}
+
+
+\end{exercise}
+
+
+
+
+
+
+\end{document}

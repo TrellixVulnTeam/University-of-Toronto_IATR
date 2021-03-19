@@ -1,0 +1,52 @@
+This form must be printed out, filled in, and submitted on MarkUs
+within 7 days of getting your mark.
+       https://markus.teach.cs.toronto.edu/csc148-2017-01/
+
+
+                 CSC 148H -- Winter 2017: REQUEST TO RE-MARK TEST
+                 ================================================
+
+
+  Student number: ____1003326046_______________     Lecture section: _______0201_________
+
+
+  Last name:      ___Sun________________     Instructor:      ________Jacqueline_________
+
+
+  First name:     ______Ruijie_____________     
+
+
+  Email address:  _______jerry.sun@mail.utoronto.ca____________     
+
+
+  Test number: ___#119 afternoon___     Date of request: _________3.22_________
+
+Concisely, and clearly, state what portion of the test was not
+correctly marked.
+
+Dear Professor,
+
+I want to make remark request for Q3 which I only get 1 score.
+
+Admittedly, I understand the mistake I made on my TT2.
+
+But I think I am on the right track which is probably worthy more than only 1 score.
+
+My solution is different from TT2 official sample solution which may confused TA.
+
+So I want to add some explanation.
+
+My right solution should look like this:
+
+Firstly, I assign list_.back to variable called new_front, i.e., new_front = list_.back. And I also assign list_.back to current node, i.e., cur = list_.back.
+
+Secondly, use while loop to find the target node which is the node before current node and I connect them.Then after reset the current node, I repeat the process until I find the value or reach the end of the list(the first node of original Linkedlist).
+
+What I did wrong is that I begin the process from opposite order which will lose node at first iteration.
+
+I will really appreciate it if you could reconsider my score of Q3.
+
+Best Regards,
+Ruijie Sun
+
+

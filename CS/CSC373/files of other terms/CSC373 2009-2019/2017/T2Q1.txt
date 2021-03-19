@@ -1,0 +1,41 @@
+(a) FALSE
+
+   1
+A---->B
+ \    |
+3 \   | 2
+   \  |
+   _\|v
+      C
+
+(b) TRUE
+
+If shortest path from s to v is defined then it consists of <= |V|-1 edges. Thus, |V|-1 relaxations of all edges are enough to compute it correctly, and relax operations are safe.
+
+(c) TRUE
+
+Easy to see by Ford-Fulkerson method. First of all, Ford-Fulkerson terminates (since capacities are integers). Each augmenting path has capacity that is a multiple of 5. Thus, the overall flow computed by Ford-Fulkerson  will be a multiple of 5.
+
+(d) FALSE
+
+
+      B
+    _ 
+    /|  \
+ 1 /     \ 1
+  /      _\|
+
+S           T
+          _
+  \       /|
+ 1 \     / 1
+   _\|  /
+      
+      C    
+
+Max flow value is 2. If each capacity is increased by 1 then max flow value increases to 4.
+
+(e) TRUE
+
+Increasing some component of b increases the feasible region, which means that there are more solutions to choose from.
+

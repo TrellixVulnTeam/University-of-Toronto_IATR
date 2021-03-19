@@ -1,0 +1,233 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/Pufan/Desktop/CSC258/Lab5
+vEightBitCounter
+Z1 !s110 1499644982
+!i10b 1
+!s100 M3LFbf4z5FZJ8QZ7>AEP51
+IA?9XbST4SzcD86S;lU2z[0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1499644471
+Z4 8lab5part1.v
+Z5 Flab5part1.v
+L0 14
+Z6 OV;L;10.4d;61
+r1
+!s85 0
+31
+Z7 !s108 1499644982.000000
+Z8 !s107 lab5part1.v|
+Z9 !s90 -reportprogress|300|-timescale|1ns/1ns|lab5part1.v|
+!i113 1
+Z10 o-timescale 1ns/1ns
+n@eight@bit@counter
+vhexDecoder
+R1
+!i10b 1
+!s100 5U[IkeM_g[0hM0X2lncd22
+I]ci[k<a>?IGziL3Nnb[g<1
+R2
+R0
+R3
+R4
+R5
+L0 110
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+nhex@decoder
+vlab5part1
+R1
+!i10b 1
+!s100 JEfLiLY=UADT;kVd5FfXB2
+IjlMM05NBRG^<WU3F>_Ndz3
+R2
+R0
+R3
+R4
+R5
+L0 28
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vsegment0
+R1
+!i10b 1
+!s100 fXW`ES>B[@^<PNoI_k4BJ3
+I7iY[kmmRM:Eg;R7XmH;=^1
+R2
+R0
+R3
+R4
+R5
+L0 40
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vsegment1
+R1
+!i10b 1
+!s100 ;Ya[5L;imcJ=TBjdbbIkV1
+Il9;QO8;f<ZNaPTT_zK7]63
+R2
+R0
+R3
+R4
+R5
+L0 50
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vsegment2
+R1
+!i10b 1
+!s100 gOVhOAlY_<UPWZWookc@j1
+I20m:@9^6aSQkof`0fhI_d2
+R2
+R0
+R3
+R4
+R5
+L0 60
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vsegment3
+R1
+!i10b 1
+!s100 ;Rk^R4[o??LV^geA`C4^C3
+IjZe8D03IY>n`l`7ZNoVJQ3
+R2
+R0
+R3
+R4
+R5
+L0 70
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vsegment4
+R1
+!i10b 1
+!s100 YTmcgD7KgCSeDTDnA74W]3
+I?O;OQ;[N8B2T`UXOYzFPo1
+R2
+R0
+R3
+R4
+R5
+L0 80
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vsegment5
+R1
+!i10b 1
+!s100 YBgYznJ=j]9EGG[dQG;m^2
+IC6;U6QOV`2=OMSBZLPMLO2
+R2
+R0
+R3
+R4
+R5
+L0 90
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vsegment6
+R1
+!i10b 1
+!s100 O_K5Mf62IOAD6C6i55i2z2
+I4JW>mI<:XF?Z[[RiT=ODk3
+R2
+R0
+R3
+R4
+R5
+L0 100
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vtFlipFlop
+R1
+!i10b 1
+!s100 Lh4RI7^JCX@dI<D_k]Sh]1
+IIFLd]HmShMY9E67hJ`]OS2
+R2
+R0
+R3
+R4
+R5
+L0 3
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+nt@flip@flop

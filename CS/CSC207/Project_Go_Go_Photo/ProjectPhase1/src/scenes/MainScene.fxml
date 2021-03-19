@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainSceneController">
+    <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images.jpeg" />
+         </image>
+      </ImageView>
+        <VBox layoutX="155.0" layoutY="109.0" prefHeight="200.0" prefWidth="298.0">
+            <children>
+                <Button fx:id="viewImage" mnemonicParsing="false" onAction="#viewImageButtonClicked" prefHeight="60.0" prefWidth="300.0" text="View An Image" textAlignment="CENTER" textFill="#1202e3">
+                    <font>
+                        <Font size="22.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+        <VBox layoutX="154.0" layoutY="200.0" prefHeight="200.0" prefWidth="298.0">
+            <children>
+                <Button fx:id="logBook" mnemonicParsing="false" onAction="#logBookButtonClicked" prefHeight="60.0" prefWidth="303.0" text="Logbook" textFill="#ab1cd6">
+                    <font>
+                        <Font size="22.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

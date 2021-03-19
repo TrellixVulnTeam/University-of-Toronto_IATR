@@ -1,0 +1,66 @@
+==============================================================================
+CSC 373                 Tutorial Solutions for Week  5               Fall 2014
+==============================================================================
+
+
+ 1. (a) Augmenting path                 Residual capacity
+
+        s -0/10-> a -0/5-> t            5
+
+        (Remember: "augmenting f along path P" means to add the residual
+        capacity to each forward edge, and to subtract it from each backward
+        edge. In this case, set f(s,a) = 5, f(a,t) = 5.)
+
+        s -0/5-> d -0/10-> t            5
+
+        s -0/8-> b -0/10-> c -0/8-> t   8
+
+        s -5/10-> a -0/3-> c <-8/10- b -0/3-> d -5/10-> t   3
+
+        No more augmenting paths.
+
+        Final flows:
+                f(s,a) = 8        f(b,a) = 0        f(a,t) = 5
+                f(s,b) = 8        f(b,c) = 5        f(d,c) = 0
+                f(s,d) = 5        f(b,d) = 3        f(d,t) = 8
+                                  f(a,c) = 3        f(c,t) = 8
+        Flow value |f| = f(s,a) + f(s,b) + f(s,d) = 8 + 8 + 5 = 21.
+
+    (b) Forward edges across X_0: (s,a), (b,a), (c,t), (d,t).
+        Backward edges across X_0: (a,c).
+        Capacity of cut X_0:
+            c(X_0) = c(s,a) + c(b,a) + c(c,t) + c(d,t)
+                   = 10 + 3 + 8 + 10
+                   = 31.
+        Flow across cut X_0:
+            f(X_0) = f(s,a) + f(b,a) + f(c,t) + f(d,t) - f(a,c)
+                   = 8 + 0 + 8 + 8 - 3
+                   = 21.
+
+    (c) Start with X_1 = ({s}, {a,b,c,d,t}) and flow from part (a).
+        Edge (s,a) crosses cut forward with residual capacity 2, so set
+        X_1 = ({s,a}, {b,c,d,t}).
+        All edges forward across cut have f = c: (s,b), (s,d), (a,c), (a,t).
+        All edges backward across cut have f = 0: (b,a).
+        Cut X_1 = ({s,a},{b,c,d,t}) has capacity
+        c(X_1) = c(s,d) + c(s,b) + c(a,c) + c(a,t)
+               = 5 + 8 + 3 + 5
+               = 21
+               = |f|.
+
+
+ 2. Add "super-source" s with edges (s,s_1), ..., (s,s_k) each of capacity oo;
+    add "super-sink" t with edges (t_1,t), ..., (t_l,t) each of capacity oo.
+    (Instead of using oo, can set capacity to sum of outgoing/incoming
+    capacities).
+    Max flow in resulting network = max flow in original network because
+      - any flow in original network can be extended to a flow in resulting
+        network (for new edges from super-source to source, set flow equal to
+        total flow out of source; for new edges from sink to super-sink, set
+        flow equal to total flow into sink) -- hence, max flow in new network
+        >= max flow in original network;
+      - any flow in resulting network induces flow in original network (flow
+        out of every source and into every sink limited only by edges in
+        original network because of "infinite" capacities on new edges)
+        -- hence, max flow in original network >= max flow in new network.
+

@@ -1,0 +1,57 @@
+PHASE1:
+
+Xindi Zhang
+- Mainly created and implement java class:LoggerManager, LogMessage and MyFormatter
+- Partially built the log related connection between frontend and backend.
+- UML.pdf
+- Wrote Java doc of log related class, ExistingImage and DirectoryManager
+
+Ruijie Sun
+- Mainly created and implement java class:GoGoPhotoSystem and TagManager
+- Communication between frontend and backend requirement.
+- Wrote Java doc of log related class, GoGoPhotoSystem and TagManager
+
+Jiayi Zhang
+- Mainly handle all the things with gui
+- Do some slightly change with the backend when doing connection
+
+
+Wenjie Hao
+I am mainly responsible for Image, ImageManager, Observable, UsedName, Tags, DirectoryManager, ExistingImage classes.
+
+ExistingImages, Tags, UsedName classes are responsible for generating the correspondingly objects to be displayed via GUI.
+
+Image class is responsible for tracking the changes in images.
+
+ImageManager will be responsible to take actions on images. It’s responsible for move images to another directory, rename an Image, add or tag to the name of an image, and reset the Image to one of its used name.
+
+DirectoryManager is responsible for searching out all of the Images in the local directory, or global directory.
+
+PHASE2:
+
+Xindi Zhang
+- mainly create .gitignore
+- unittest
+- UML
+- some Javadoc and gui work
+
+Ruijie Sun
+- Refine backend related design pattern and code
+- write code for Gui
+- javadoc
+- coordinates to write .gitignore
+
+Jiayi Zhang
+- Refine the code for backend related to design patterns
+- add more scenes and associated controllers to fulfill the functionality
+- clean the code for filters (the new feature we add) and make it work for our
+  program
+- write javadoc for gui part
+
+Wenjie, Hao
+- Find the open-sourced filters method and understand how it works
+- Connect the open-sourced Filters to our program
+- Create FilterManager class
+- Create Filter interface in filter model
+- Javadoc 
+- Help creating Gui's AddFilterController class

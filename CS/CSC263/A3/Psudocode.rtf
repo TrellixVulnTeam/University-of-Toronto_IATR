@@ -1,0 +1,78 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf100
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww21680\viewh15440\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl216\slmult1\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 def DrawGraph(A):\
+\pard\pardeftab720\sl216\slmult1\partightenfactor0
+
+\f1\fs29\fsmilli14667 \cf2 \expnd0\expndtw0\kerning0
+	for each grid square in the virtual keyboard:\uc0\u8232 
+\fs24 		
+\fs29\fsmilli14667 grid.symbol = the symbol of this grid in virtual keyboard 
+\fs24 \
+		
+\fs29\fsmilli14667 grid.right = null\
+		grid.left = null\
+		grid.up = null\
+		grid.down = null 
+\fs24 \
+	
+\fs29\fsmilli14667 for each grid square in the virtual keyboard:\
+		if grid\'92s right in the virtual keyboard exists and grid.right == null: 
+\fs24 \
+			
+\fs29\fsmilli14667 grid.right = grid\'92s right in the virtual keyboard\
+		if grid\'92s left in the virtual keyboard exists and grid.left == null: 
+\fs24 \
+			
+\fs29\fsmilli14667 grid.left = grid\'92s left in the virtual keyboard\
+		if grid\'92s up in the virtual keyboard exists and grid.up == null: \
+			grid.up = grid\'92s up in the virtual keyboard\
+		if grid\'92s down in the virtual keyboard exists and grid.down == null: \
+			grid.down = grid\'92s down in the virtual keyboard 
+\fs24 \
+\pard\pardeftab720\sl340\sa240\partightenfactor0
+\cf2 \
+def  IsWay(u, v):      # To check if u \'97> v is a right direction the cursor can move to.\
+
+\fs28 	status = False\
+	if v = u.right:\
+		cur = v\
+		while cur != null:\
+			if cur.symbol != u.symbol:\
+				return True\
+			cur = cur.right\
+
+\fs24 	
+\fs29\fsmilli14667 if v = u.left: \
+		cur = v\
+		while cur != null: 
+\fs24 \
+			
+\fs29\fsmilli14667 if cur.symbol != u.symbol: \
+				return True \
+			cur = cur.left 
+\fs24 \
+	
+\fs29\fsmilli14667 if v = u.up: \
+		cur = v\
+		while cur != null: 
+\fs24 \
+			\
+\
+\
+\
+\
+	\
+\
+\
+\
+
+\fs29\fsmilli14667 \uc0\u8232 
+\fs24 \
+\
+\
+}

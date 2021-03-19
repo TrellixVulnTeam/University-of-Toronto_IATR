@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ViewImageController">
+    <children>
+        <VBox layoutX="133.0" layoutY="109.0" prefHeight="200.0" prefWidth="343.0">
+            <children>
+                <Button fx:id="listAll" blendMode="RED" mnemonicParsing="false" onAction="#listAllButtonClicked" prefHeight="60.0" prefWidth="347.0" text="All Images Under This Directory" textFill="#2a02e3">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+        <VBox layoutX="133.0" layoutY="200.0" prefHeight="200.0" prefWidth="343.0">
+            <children>
+                <Button fx:id="localOnly" blendMode="GREEN" mnemonicParsing="false" onAction="#localOnlyButtonClicked" prefHeight="60.0" prefWidth="354.0" text="Images In This Directory Only" textFill="#d41ecf">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

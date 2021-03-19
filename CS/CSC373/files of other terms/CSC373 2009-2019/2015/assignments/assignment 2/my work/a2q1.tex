@@ -1,0 +1,62 @@
+\documentclass[10pt]{article}
+
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\usepackage{clrscode3e}
+
+\usepackage{enumitem}
+%\usepackage{parskip}
+%\setlist{parsep=8pt,listparindent=\parindent}
+\setlength\parindent{0pt}
+\setlength\parskip{6pt}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+
+\noindent CSC373 Assignment 2 \hfill Eric Bannatyne\\
+31 March 2015 \hfill 1000468451\\
+
+\begin{enumerate}
+
+\item \begin{enumerate}
+
+\item Define the decision problem \(D_0\) as follows.
+
+Input: A string \(x \in \Sigma^*\), where \(\Sigma = \{0, 1\}\).
+
+Output: Does \(x = 0\)?
+
+To show that \(D_0 \leq_p \overline{D_0}\), we wish to construct in polynomial time a function \(f:\Sigma^* \to \Sigma^*\) such that \(x\) is a yes-instance of \(D_0\) if and only if \(f(x)\) is a yes-instance of \(\overline{D_0}\) (or equivalently a no-instance of \(D_0\)). The reduction function \(f\) is simply defined as follows. \[
+f(x) = \begin{cases}
+1 &\text{ if } x = 0\\
+0 &\text{ otherwise}
+\end{cases}
+\]
+
+This function can trivially be computed in constant time, which means that it is computable in polynomial time. Moreover, if \(x\) is a yes-instance of \(D_0\), then \(x = 0\), so \(f(x) = 1\), which is a no-instance of \(D_0\). Conversely, if \(x\) is a no-instance of \(D_0\), then \(f(x) = 0\), which is the only yes-instance of \(D_0\). Therefore \(D_0 \leq_p \overline{D_0}\).
+
+\item The problem of determining whether a binary input string \(x\) is equal to the string 0 is clearly decidable in constant time, and in particular \(D_0 \in \text{P}\). Since \(\text{P} \subseteq \text{NP}\), it follows that \(D_0 \in \text{NP}\).
+
+\item Let \(D_1\) be NP-complete and suppose \(D_1 \leq_p \overline{D_1}\). Then there is some reduction function \(f:\Sigma^* \to \Sigma^*\) computable in polynomial time such that \(x\) is a yes-instance of \(D_1\) if and only if \(f(x)\) is a yes-instance of \(\overline{D_1}\). This implies that we also have \(\overline{D_1} \leq_p D_1\), by using the exact same reduction function \(f\).
+
+Since \(D_1 \in \text{NP}\), it follows that \(\overline{D_1} \in \text{coNP}\). Moreover, a language \(L\) is NP if and only if \(\overline{L}\) is coNP. Since \(D_1\) is NP-complete, we have \(L \leq_p D_1\), and equivalently (by the same reasoning as above), \(\overline{L} \leq_p \overline{D_1}\). Therefore \(\overline{D_1}\) is coNP-complete.
+
+Let \(A \in \text{NP}\). Then \(A \leq_p D_1 \leq_p \overline{D_1}\). Since \(\overline{D_1} \in \text{coNP}\) it follows that \(A \in \text{coNP}\). Therefore \(\text{NP} \subseteq \text{coNP}\).
+
+Similarly, let \(B \in \text{coNP}\). Then \(B \leq_p \overline{D_1} \leq_p D_1\), since \(\overline{D_1}\) is coNP-complete. Then \(B \in \text{NP}\). Hence \(\text{coNP} \subseteq \text{NP}\).
+
+Therefore, combining these two statements, it follows that \(\text{NP} = \text{coNP}\), under the assumption that such a problem \(D_1\) exists.
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
+

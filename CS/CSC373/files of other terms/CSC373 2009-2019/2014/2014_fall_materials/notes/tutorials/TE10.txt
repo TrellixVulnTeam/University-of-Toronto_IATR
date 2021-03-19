@@ -1,0 +1,9 @@
+============================================================================
+CSC 373                Tutorial Exercises for Week 10              Fall 2014
+============================================================================
+
+Show that SAT is polytime self-reducible.
+
+Pay attention to the details! In particular, be very specific about what
+constitutes an input to your decision algorithm and your search algorithm.
+

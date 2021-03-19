@@ -1,0 +1,7 @@
+gcc -Wall -std=gnu99 -g hello.c
+./a.out
+# ./ current position
+gcc -Wall -std=gnu99 -g -o hello hello.c #will produce file called hello
+./hello
+
+ssh sunruij2@teach.cs.utoronto.ca

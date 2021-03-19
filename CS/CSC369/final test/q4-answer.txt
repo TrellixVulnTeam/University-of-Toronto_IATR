@@ -1,0 +1,21 @@
+q4: Big Picture
+
+Describe how the time versus space tradeoff influences design decisions
+made in two of the following three operating system subsystems.  Use specific
+examples of data structures or algorithms in your descriptions.
+
+Pick 2 [3 marks each - we will mark the first two that have been answered]
+
+a) Scheduler or Process Management
+multi-level-queue vs FCFS. 
+
+
+b) Memory Management
+multi-level page table saves space but it needs more time to do the translation job.
+
+
+c) File System
+In multi-level index file system, it can sove very big file, but it takes more complexity to seek position
+
+
+

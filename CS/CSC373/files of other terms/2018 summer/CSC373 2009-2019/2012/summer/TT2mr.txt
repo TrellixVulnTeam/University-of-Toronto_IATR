@@ -1,0 +1,32 @@
+Q1. Question one was also done pretty well, in general. There are two natural ways to solve it, both essentially 
+    using the following array definition:
+
+    D[i][j] = all partial programs of length i with j more "L"s than "R"s (so -l <= j <= l).
+    
+    Or, you can let 0 <= j <= l, and just double the result, as every program with j more "L"s than
+    "R"s has a dual program with the "L"s and "R"s flipped. This caused some trouble with the definition
+    of the recurrence relation --- some solutions multiplied by 2 "at every step" of the recurrence, which would
+    exponentially inflate the output of the recurrence relation. You only needed to multiply by 2 at the end!
+
+    Some solutions added l to j, so 0 <= j <= 2l, and this would make the array indices non-negative. This
+    was not necessary, but of course you were not marked down for it unless you made a mistake in your recurrence.
+
+    Others made many silly, small mistakes on the details of the recurrence relations, usually surrounding the
+    base and border cases. Remember that the base cases are a _necessary_ part of the definition of a recurrence relation, 
+    and they need to be thought about!
+
+Q2. Question two was done well by nearly everyone, modulo some small details. First, nearly every solution forgot about
+    the starting position: recall that in the theme park, you are starting from the bottom left corner (0,0). The maximum
+    amount of games you play is therefore the maximum over all games reachable from the starting position. Some solutions
+    put the maximum over all games, and many put just D[n]. I feel that these little problems would have been solved with
+    just a bit more thought.
+
+    Another small detail in the recurrence relation also caused a lot of grief. Although there are many ways
+    to write it, here is one:
+
+    D[i] = 1 + max({D[j] | j finishes before i starts and i is reachable from j in time})
+           0 otherwise    
+
+    Many students, instead of putting 0, would put D[i-1]. This is a huge problem! For suppose that you couldn't play
+    game i-1 and game i on some input. Then games occurring after game i which are reachable from game i will use the
+    value of D[i-1]. This will cause the subproblems to overlap incorrectly, and it will inflate your final solution.

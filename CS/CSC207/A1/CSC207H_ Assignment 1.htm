@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)http://www.teach.cs.toronto.edu/~csc207h/fall/assignments/a1/a1.shtml -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta name="generator" content="HTML Tidy for HTML5 (experimental) for Mac OS X https://github.com/w3c/tidy-html5/tree/c63cc39">
+        <title>
+            CSC207H: Assignment 1
+        </title>
+    </head>
+    <body>
+        <h1>
+            CSC207H: Assignment 1
+        </h1>
+        <p>
+            <strong>Group size:</strong> Individual
+        </p>
+        <p>
+            <strong>Deadline:</strong> Monday 25 September at 11 AM.
+        </p>
+        <p>
+            <strong>Summary:</strong> Write <code>Flight</code>, <code>Airport</code>, and <code>FlightSchedule</code> classes to pass a given set of unit tests.
+        </p>
+        <h2>
+            Learning objectives
+        </h2>
+        <ul>
+            <li>Use IntelliJ to develop Java classes
+            </li>
+            <li>Understand the basics of Java's type system and how to handle input and ouput
+            </li>
+            <li>Do test-driven development using Java's unit test framework (JUnit)
+            </li>
+            <li>Work with Java syntax
+            </li>
+        </ul>
+        <p>
+            Javadoc and other documentation is not required for this assignment.
+        </p>
+        <h2>
+            Problem domain
+        </h2>
+        <p>
+            Airplanes take off from an airport and land at a different airport during an individual leg of a flight. Flights can include multiple take-offs and landings, but never twice at the same airport during a single flight. Flights are identified by two capital letters (denoting the airline) and then three digits. For example, AC327 would be an Air Canada flight. Each airport is identified by a three-character code containing capital letters. For example, Toronto's Pearson International Airport is identified as YYZ. An airport should <b>NOT</b> have the same flight land there twice in the same day.
+        </p>
+        <h2>
+            Starter code and setting up
+        </h2>
+        <p>
+            We provide a set of unit tests in the <code>FlightTest</code> class and nearly-empty classes for <code>Flight</code> and <code>Airport</code>. Each <code>Flight</code> has a list of airports at which it has landed at, and each <code>Airport</code> has a list of flights which have landed there.
+        </p>
+        <p>
+            As always, proper capitalization is vital.
+        </p>
+        <p>
+            You will write class <code>FlightSchedule</code> which will contain your main method. First it will take a file called <code>FlightList.txt</code> as input. <code>FlightList</code> will contain one line for each flight. Each line will be formatted like this:
+        </p>
+        <p>
+            <code>FlightName dd-mm-yyyy | airport1 | airport2 | ... | airportn |</code>
+        </p>
+        <p>
+            Where the number of airports <code>n</code> can be different for each flight. For example, one line in the file could look like:
+        </p>
+        <p>
+            <code>AC123 25-09-2017 | YYZ | YVR | PVG |</code>
+        </p>
+        <p>
+            Then, your main method will print to the screen: <code>Enter the name of an airport</code>. If the user types in the name of a airport that appeared in <code>FlightList.txt</code>, for example: <code>PVG</code>, the output to the screen will look like this:
+        </p>
+        <p>
+            <code>PVG (AC123, WS592, AC225)</code>
+        </p>
+        <p>
+            If the user types the word <code>exit</code>, your program should terminate. Otherwise, the program will continue to prompt the user for more airports. If the user types in a string that is neither <code>exit</code> nor the name of an airport on the list, the program will print to screen <code>This is not a valid airport.</code>
+        </p>
+        <p>
+            Here are the instructions for getting started:
+        </p>
+        <ol>
+            <li>Follow the instructions in Lab 1 to create a new project in IntelliJ called <code>a1</code>. When you are asked if you want to open the project in a new window, say yes.
+            </li>
+            <li>Download <a href="http://www.teach.cs.toronto.edu/~csc207h/fall/assignments/a1/starter.zip">starter.zip</a>. Unzip it and move each file into the <code>src</code> folder of your project.
+            </li>
+            <li>You should now see <code>Flight</code>, <code>Airport</code>, <code>FlightSchedule</code> and the test file under <code>src</code> on the left panel of your IntelliJ window. You will write the code for the missing methods in <code>Flight</code> and <code>Airport</code>. They are:
+                <p>
+                    Class <code>Airport</code>: <code>wasVisitedBy</code>, <code>onSameFlight</code>, <code>addFlight</code>, <code>equals</code>, <code>getName</code>, and <code>toString</code>.
+                </p>
+                <p>
+                    Class <code>Flight</code>: <code>addAirport</code>, <code>equals</code>, <code>getAirports</code>, <code>getName</code>, <code>getDate</code>, and <code>toString</code>.
+                </p>
+                <p>
+                    You will also write the code for your <code>main</code> method in <code>FlightSchedule</code>.
+                </p>
+                <p>
+                    You will also have to add JUnit to your project. This looks different on different operating systems. You can find and share advice for accomplishing this on the discussion board or drop by office hours.
+                </p>
+                <p>
+                    Your job for this assignment is to write those methods and make the test cases pass. Then write the main method. If you pass all of the test cases <b>on the teaching lab computers</b> and handle a test file of the specified format, you will earn 100% on the assignment.
+                </p>
+            </li>
+        </ol>
+        <h2>
+            Equality
+        </h2>
+        <p>
+            Two <code>Flight</code> objects are equal if they have the same name and date.
+        </p>
+        <p>
+            Two <code>Airport</code> objects are equal if they have the same name and have been visited by the same flights.
+        </p>
+        <h2>
+            A suggestion for doing this assignment
+        </h2>
+        <p>
+            First, create method <em>stubs</em> so that all the unit tests compile. A method stub is a method header and just enough of a body to get it to compile.
+        </p>
+        <p>
+            For example, you might write these stubs for <code>getName</code> and <code>wasVisitedBy</code> in class <code>Airport</code>:
+        </p>
+        <pre>    public String getName() {
+        return null;
+    }
+
+    public boolean wasVisitedBy(Flight f) {
+        return false;
+    }
+</pre>
+        <p>
+            Once your code compiles, run the tests. Many will fail, but your setup phase is done!
+        </p>
+        <p>
+            Now pick a unit test and read it carefully. We recommend starting with <code>testFlightGetName</code> because it's first, but you're welcome to start elsewhere. Write just enough code for the unit test to pass. Move on to the next unit test and do the same thing: read it carefully so that you understand what it is testing, and then write just enough code for it to pass.
+        </p>
+        <p>
+            You will sometimes need to iterate over part of the contents of an <code>ArrayList</code>. You can use a loop that looks like this one, which iterates over all the items in the list:
+        </p>
+        <pre>    int i = 0;
+    while (i != this.airports.size()) {
+        // call this.airports.get(i), cast it to type <code>Airport</code>, and do something with it.
+        i = i + 1;
+    }
+</pre>
+        <p>
+            You can, of course, also use a for loop.
+        </p>
+        <h2>
+            Line separators
+        </h2>
+        <p>
+            Unix, Windows, and Mac all use different newline separators. Linux and MacOS use <code>\n</code>, but Windows uses <code>\r\n</code>. <code>System.lineSeparator()</code> returns the appropriate one, depending on the operating system on which the code is executed. You <strong>must</strong> use it to indicate newlines; this is relevant to method <code>toString</code> in class <code>Flight</code>.
+        </p>
+        <h2>
+            Handling Input
+        </h2>
+        <p>
+            You will want to explore the <code>split</code> method in class <code>String</code> when writing your main method. This method takes a regex as an argument. Regex is short for Regular Expression. We will be learning about these later in the course. For now, you will need to know that <code>"\s"</code> is the regex for a single blank space and <code>"\\|"</code> is the regex for the symbol | in Java.
+        </p>
+        <p>
+            There is a file called <code>ReadWrite.java</code> in the Week 2 Readings on the course website. You can re-use any of the code in this file, if appropriate. It demonstrates various methods for inputting text into your program. You are responsible for looking up unknown methods or classes on PCRS, the Oracle website, or from reliable alternative sources.
+        </p>
+        <h2>
+            Submitting the assignment
+        </h2>
+        <p>
+            You will submit the assigment on MarkUs. The link for this is on the course website. Once there, log in with your UTORid and click on Assignment 1. Try to do this before the actual deadline so that you can seek assistance if required.
+        </p>
+        <h2>
+            Re-mark Requests
+        </h2>
+        <p>
+            Your code for a1 must run on the teaching lab servers. Once the marks for a1 have been released on MarkUs, we will send out an e-mail regarding re-marking interviews. In order to get your assignment re-marked, you will make an appointment to meet with a member of CSC207 teaching team in a teaching lab where you can log in and show us that your code passes all of the tests. It is unlikely that you will need to do this, since your assignment will be graded on the teaching server. So we will see the same results that you see when you run your assignment on IntelliJ on a computer in a teaching lab.
+        </p>
+    
+
+</body></html>
