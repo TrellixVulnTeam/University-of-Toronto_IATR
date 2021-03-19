@@ -1,5 +1,0 @@
-Lecture 8 - System Call Process
-https://web.microsoftstream.com/video/913d8e20-77bb-402a-81bf-f6d0b3e0579c
-
-Lecture 8 - System Call Thread
-https://web.microsoftstream.com/video/57a7d1f8-139d-4af8-bcbf-ac6911968013 

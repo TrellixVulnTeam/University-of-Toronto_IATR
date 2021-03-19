@@ -1,6 +1,0 @@
-
-State Machine - |part3|control:c0|current_state
-Name current_state.S_LOADC current_state.S_START current_state.S_LOADC_WAIT 
-current_state.S_LOADC 0 0 0 
-current_state.S_LOADC_WAIT 1 0 1 
-current_state.S_START 1 1 0 
